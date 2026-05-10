@@ -3,10 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import img1 from "../../assets/falrexm.jpg";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+
+  const pathName = usePathname()
+      console.log(pathName)
+      if (!pathName.includes('dashboard') && !pathName.includes('blog') && !pathName.includes('tryonvertually') && !pathName.includes('socialCommunication')) {
+          
   return (
-    <footer className="bg-gradient-to-r from-gray-900 via-black to-gray-900 text-gray-300 relative z-10">
+    <footer className="footbg shadow-md relative z-10">
       <div className="w-11/12 mx-auto py-12 grid grid-cols-1 md:grid-cols-4 gap-12">
         {/* Logo & About */}
         <div>
@@ -24,7 +30,7 @@ export default function Footer() {
               <span className="text-green-400">F</span>al
               <span className="text-yellow-400">R</span>ex
             </h2> */}
-          <p className="mt-4 text-sm leading-relaxed text-gray-400">
+          <p className="mt-4 text-sm leading-relaxed text-gray-600">
             Bringing you premium quality products with modern design and top
             performance. We believe in innovation and trust.
           </p>
@@ -32,7 +38,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
+          <h3 className="text-lg font-semibold text-blacke mb-4">Quick Links</h3>
           <ul className="space-y-2">
             {[
               { name: "Home", href: "/" },
@@ -54,16 +60,16 @@ export default function Footer() {
 
         {/* Contact */}
         <div className="">
-          <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
+          <h3 className="text-lg font-semibold  text-black mb-4">Contact</h3>
           <p className="text-sm">📧 support@falrex.com</p>
           <p className="text-sm">📞 +880 1609111813</p>
           <p className="text-sm">📍 Dhaka, Bangladesh</p>
         </div>
 
         {/* Social */}
-        <div>
+        <div className="text-white">
           <h3 className="text-lg font-semibold text-white mb-4">Follow Us</h3>
-          <div className="flex gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <Link
               href="https://www.facebook.com/profile.php?id=61579781729132"
               className="p-2 bg-gray-800 rounded-full hover:bg-green-400 hover:text-black transition duration-300"
@@ -100,4 +106,5 @@ export default function Footer() {
       </div>
     </footer>
   );
+}
 }

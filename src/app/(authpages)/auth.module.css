@@ -1,0 +1,307 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: #0a0a0f; */
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* ── Animated background orbs ── */
+.bgOrbs { position: absolute; inset: 0; pointer-events: none; }
+
+.orb1, .orb2, .orb3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: drift 8s ease-in-out infinite alternate;
+}
+.orb1 { width: 400px; height: 400px; background: #7149f5; top: -100px; left: -100px; animation-delay: 0s; }
+.orb2 { width: 300px; height: 300px; background: #09b7f6; bottom: -80px; right: -80px; animation-delay: 2s; }
+.orb3 { width: 250px; height: 250px; background: #f549a8; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 4s; }
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, -30px) scale(1.08); }
+}
+
+/* ── Card ── */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  background: rgba(16, 14, 28, 0.85);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 40px 36px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+@media (max-width: 480px) {
+  .card { padding: 32px 24px; border-radius: 20px; }
+}
+
+/* ── Logo ── */
+.logo {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, #7149f5, #09b7f6);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(113,73,245,0.4);
+}
+
+/* ── Title ── */
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #f0eeff;
+  text-align: center;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+.subtitle {
+  font-size: 0.875rem;
+  color: #6b6880;
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+/* ── Google button ── */
+.googleBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: #e0dff0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+.googleBtn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+.googleBtn:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Divider ── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 22px 0; color: #3a3750; font-size: 0.8rem;
+}
+.divider::before, .divider::after {
+  content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.07);
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 22px;
+  gap: 4px;
+}
+.tabBtn {
+  flex: 1;
+  padding: 9px;
+  border: none;
+  background: transparent;
+  color: #6b6880;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.tabActive {
+  background: rgba(113,73,245,0.25);
+  color: #c4b5fd;
+  border: 1px solid rgba(113,73,245,0.3);
+}
+
+/* ── Error box ── */
+.errorBox {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* ── Success box ── */
+.successBox {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* ── Form ── */
+.form { display: flex; flex-direction: column; gap: 16px; }
+
+.field { display: flex; flex-direction: column; gap: 7px; }
+
+.field label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #8b89a0;
+  letter-spacing: 0.02em;
+}
+
+.field input {
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px;
+  color: #f0eeff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.18s, background 0.18s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.field input::placeholder { color: #3d3a52; }
+.field input:focus {
+  border-color: rgba(113,73,245,0.5);
+  background: rgba(113,73,245,0.06);
+}
+
+/* Password field with toggle */
+.passwordField { position: relative; }
+.passwordField input { padding-right: 44px; }
+.eyeBtn {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: #6b6880; cursor: pointer;
+  display: flex; align-items: center;
+  padding: 4px;
+  transition: color 0.15s;
+}
+.eyeBtn:hover { color: #a89ec0; }
+
+/* Name row */
+.nameRow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 380px) { .nameRow { grid-template-columns: 1fr; } }
+
+/* ── Submit button ── */
+.submitBtn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #7149f5, #9b6bff);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: opacity 0.18s, transform 0.1s, box-shadow 0.18s;
+  box-shadow: 0 4px 20px rgba(113,73,245,0.4);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 4px;
+}
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(113,73,245,0.5);
+}
+.submitBtn:disabled { opacity: 0.55; cursor: default; transform: none; }
+
+/* ── Spinner ── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── OTP ── */
+.otpHint { font-size: 0.82rem; color: #8b89a0; text-align: center; margin: 0; }
+.otpHint strong { color: #c4b5fd; }
+
+.otpRow { display: flex; gap: 8px; justify-content: center; }
+
+.otpInput {
+  width: 46px !important; height: 54px;
+  text-align: center;
+  font-size: 1.3rem; font-weight: 700;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px;
+  color: #f0eeff;
+  outline: none;
+  transition: border-color 0.18s, background 0.18s;
+  padding: 0 !important;
+  caret-color: #7149f5;
+}
+.otpInput:focus {
+  border-color: rgba(113,73,245,0.6);
+  background: rgba(113,73,245,0.08);
+}
+@media (max-width: 380px) { .otpInput { width: 40px !important; height: 48px; } }
+
+/* ── Text / ghost button ── */
+.textBtn {
+  background: none; border: none;
+  color: #7149f5; font-size: 0.85rem;
+  cursor: pointer; padding: 4px;
+  transition: color 0.15s; text-align: center;
+  font-weight: 500;
+}
+.textBtn:hover { color: #9b6bff; }
+
+/* ── Switch link ── */
+.switchLink {
+  text-align: center; font-size: 0.85rem;
+  color: #6b6880; margin: 20px 0 0;
+}
+.switchLink a { color: #7149f5; font-weight: 500; text-decoration: none; }
+.switchLink a:hover { color: #9b6bff; }
+
+/* ── Terms ── */
+.terms {
+  font-size: 0.75rem; color: #4a4760;
+  text-align: center; margin: 12px 0 0; line-height: 1.6;
+}
+.terms a { color: #6b5baa; text-decoration: none; }
+.terms a:hover { color: #7149f5; }
+
+/* ── Password strength ── */
+.strengthBar {
+  height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden; margin-top: 6px;
+}
+.strengthFill {
+  height: 100%; border-radius: 2px;
+  transition: width 0.3s, background 0.3s;
+}
+.strengthLabel {
+  font-size: 0.72rem; margin-top: 4px;
+  font-weight: 500;
+}

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../app/globals.css";
 import Navebar2 from "./component/naveber2";
 import Navebar from "./component/navebar";
 import Footer from "./component/footer/page";
 import Marquee from "react-fast-marquee";
+import FirebaseAnalytics from "./FirebaseAnalytics";
+import { CartProvider } from "./context/CartContext";
 // import { Construction } from "lucide-react";
 
 const geistSans = Geist({
@@ -33,23 +35,28 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <main>
-             <Marquee gradient={false} speed={60} pauseOnHover>
-        <span className="mx-8 text-3xl font-semibold text-green-600">
-          🚀 🚧 This Site Under Constructions
-        </span>
-        <span className="mx-8 text-lg font-semibold text-green-600">
-          📚 Free Shipping on Books Over ৳2500
-        </span>
-        <span className="mx-8 text-lg font-semibold text-green-600">
-          🛒 New Arrivals Just Dropped!
-        </span>
-      </Marquee>
-          <Navebar2 />
-          <Navebar />
-          {children}
-          <Footer/>
+          {/* <Marquee gradient={false} speed={60} pauseOnHover>
+            <span className="mx-8 text-3xl font-semibold text-green-600">
+              🚀 🚧 This Site Under Constructions
+            </span>
+            <span className="mx-8 text-lg font-semibold text-green-600">
+              📚 Free Shipping on Books Over ৳2500
+            </span>
+            <span className="mx-8 text-lg font-semibold text-green-600">
+              🛒 New Arrivals Just Dropped!
+            </span>
+          </Marquee> */}
+
+
+          <FirebaseAnalytics></FirebaseAnalytics>
+          <CartProvider>
+            <Navebar2 />
+            <Navebar />
+            {children}
+          </CartProvider>
+          <Footer />
         </main>
-        
+
       </body>
     </html>
   );

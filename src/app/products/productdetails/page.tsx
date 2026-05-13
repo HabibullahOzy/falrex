@@ -8,6 +8,7 @@ import { usePinch } from "@use-gesture/react";
 import Link from "next/link";
 import RelatedProducts from "../relatedProducts/page";
 import CartButtons from "../CartButtons";
+import ProductReviews from "@/app/component/reviewcomp/ProductReviews";
 
 interface ProductImage {
   url: string;
@@ -723,8 +724,8 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                     setScale(1);
                   }}
                   className={`flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg border bg-slate-50 transition ${currentIndex === index
-                      ? "border-black"
-                      : "border-transparent hover:border-slate-300"
+                    ? "border-black"
+                    : "border-transparent hover:border-slate-300"
                     }`}
                 >
                   {item.includes(".mp4") || item.includes("youtube") ? (
@@ -989,15 +990,17 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
         )}
 
         {activeTab === "Reviews" && (
-          <div className="mt-9 border border-slate-200 p-6">
-            <div className="flex flex-wrap items-center gap-4">
-              <p className="text-4xl font-bold">4.8</p>
-              <div>
-                <h2 className="text-xl font-bold">Customer reviews</h2>
-                <p className="mt-1 text-sm text-slate-600">126 reviews from verified buyers</p>
-              </div>
-            </div>
-          </div>
+          // <div className="mt-9 border border-slate-200 p-6">
+          //   <div className="flex flex-wrap items-center gap-4">
+          //     <p className="text-4xl font-bold">4.8</p>
+          //     <div>
+          //       <h2 className="text-xl font-bold">Customer reviews</h2>
+          //       <p className="mt-1 text-sm text-slate-600">126 reviews from verified buyers</p>
+          //     </div>
+          //   </div>
+          // </div>
+
+          <ProductReviews productId={product._id} />
         )}
 
         {activeTab === "Supplier" && (
@@ -1034,10 +1037,13 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           </div>
         )}
       </section>
+      {
+        product?.subSubcategory &&
+        <div className="mx-auto mt-10 max-w-[1360px]">
+          <RelatedProducts subSubcategory={product?.subSubcategory} />
+        </div>
+      }
 
-      <div className="mx-auto mt-10 max-w-[1360px]">
-        <RelatedProducts />
-      </div>
 
       <AnimatePresence>
         {lightboxOpen && (

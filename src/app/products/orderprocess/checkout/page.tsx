@@ -4,6 +4,7 @@ import { useCart } from "../../../context/CartContext";
 import { placeOrder } from "../../../../../lib/cartHelpers";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Loader2 } from "lucide-react";
+import OrderSuccessScreen from "@/app/component/ordercomp/OrderSuccessScreen";
 
 const COUNTRIES = ["Bangladesh (BD)", "China (CN)", "India (IN)", "United States (US)", "United Kingdom (GB)", "Other"];
 
@@ -12,16 +13,18 @@ const inputCls = "w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm f
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
   const router = useRouter();
-  const sym    = cart.items[0]?.currency?.includes("$") ? "$" : "৳";
+  const sym = cart.items[0]?.currency?.includes("$") ? "$" : "৳";
 
   const [shipping, setShipping] = useState({
     firstName: "", lastName: "", email: "", phone: "",
     address: "", city: "", state: "", postalCode: "", country: "", notes: "",
   });
   const [paymentMethod, setPaymentMethod] = useState("COD");
-  const [loading,       setLoading]       = useState(false);
-  const [success,       setSuccess]       = useState<string | null>(null);
-  const [error,         setError]         = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState("");
+  const [successOrderId, setSuccessOrderId] = useState<string | null>(null);
+  const [lastOrderItems, setLastOrderItems] = useState<any[]>([]);
 
   const updateField = (field: string, value: string) => {
     setShipping((prev) => ({ ...prev, [field]: value }));
@@ -42,6 +45,8 @@ export default function CheckoutPage() {
       if (!res.success) throw new Error(res.message);
 
       setSuccess(res.data.orderNumber);
+      setSuccessOrderId(res.data._id);
+      setLastOrderItems(res.data.items || []);
       await clearCart();
     } catch (err: any) {
       setError(err.message || "Failed to place order");
@@ -50,21 +55,30 @@ export default function CheckoutPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-800">Order Placed!</h1>
-          <p className="text-gray-500 mt-2 text-sm">Your order number is:</p>
-          <p className="text-xl font-bold text-purple-600 mt-1">{success}</p>
-          <p className="text-sm text-gray-400 mt-3 leading-relaxed">
-            We'll contact you to confirm your order details. Thank you for shopping with us!
-          </p>
-          <button onClick={() => router.push("/")}
-            className="mt-6 w-full py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition">
-            Continue Shopping
-          </button>
-        </div>
-      </div>
+      // <div className="min-h-screen flex items-center justify-center px-4">
+      //   <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
+      //     <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+      //     <h1 className="text-2xl font-bold text-gray-800">Order Placed!</h1>
+      //     <p className="text-gray-500 mt-2 text-sm">Your order number is:</p>
+      //     <p className="text-xl font-bold text-purple-600 mt-1">{success}</p>
+      //     <p className="text-sm text-gray-400 mt-3 leading-relaxed">
+      //       We'll contact you to confirm your order details. Thank you for shopping with us!
+      //     </p>
+      //     <button onClick={() => router.push("/")}
+      //       className="mt-6 w-full py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition">
+      //       Continue Shopping
+      //     </button>
+      //   </div>
+      // </div>
+
+      <>
+        <OrderSuccessScreen
+          orderNumber={success}
+          orderId={successOrderId}
+          orderItems={lastOrderItems}
+          onClose={() => router.push("/")}
+        />
+      </>
     );
   }
 
@@ -171,15 +185,14 @@ export default function CheckoutPage() {
                 <div className="space-y-2">
                   {[
                     { value: "COD", label: "💵 Cash on Delivery", desc: "Pay when you receive" },
-                    { value: "Bank", label: "🏦 Bank Transfer",    desc: "Transfer to our bank account" },
-                    { value: "bKash", label: "📱 bKash",           desc: "Pay via bKash mobile banking" },
+                    { value: "Bank", label: "🏦 Bank Transfer", desc: "Transfer to our bank account" },
+                    { value: "bKash", label: "📱 bKash", desc: "Pay via bKash mobile banking" },
                   ].map((pm) => (
                     <label key={pm.value}
-                      className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${
-                        paymentMethod === pm.value
-                          ? "border-purple-400 bg-purple-50"
-                          : "border-gray-200 hover:border-gray-300"
-                      }`}>
+                      className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${paymentMethod === pm.value
+                        ? "border-purple-400 bg-purple-50"
+                        : "border-gray-200 hover:border-gray-300"
+                        }`}>
                       <input type="radio" name="payment" value={pm.value} checked={paymentMethod === pm.value}
                         onChange={() => setPaymentMethod(pm.value)}
                         className="accent-purple-600" />

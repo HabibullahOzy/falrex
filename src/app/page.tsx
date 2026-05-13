@@ -21,6 +21,8 @@ import {
   Gamepad2,
   Zap,
 } from "lucide-react";
+import { useAuth } from "../../lib/useAuth";
+import CategoryMarquee from "./component/CategoryMarquee";
 
 
 
@@ -30,6 +32,9 @@ const contentStyle: React.CSSProperties = {
   height: "100%",
   // objectFit: "cover",
 };
+
+// const {user} =useAuth()
+// console.log(user)
 
 export default function Home() {
   const images = [img, img1, img2, img3];
@@ -96,59 +101,59 @@ export default function Home() {
 
 
   const ProductCard = ({ badge, badgeColor, title, subtitle, price, oldPrice, icon }) => {
-  return (
-    <div className="relative w-80 overflow-hidden rounded-3xl p-6 shadow-2xl transition-transform hover:scale-[1.02]">
-      {/* Background Layer with Gradient */}
-      <div 
-        className="absolute inset-0 -z-20" 
-        style={{ background: 'linear-gradient(135deg, #5409DA 0%, #4E71FF 100%)' }} 
-      />
+    return (
+      <div className="relative w-80 overflow-hidden rounded-3xl p-6 shadow-2xl transition-transform hover:scale-[1.02]">
+        {/* Background Layer with Gradient */}
+        <div
+          className="absolute inset-0 -z-20"
+          style={{ background: 'linear-gradient(135deg, #5409DA 0%, #4E71FF 100%)' }}
+        />
 
-      {/* Decorative Bubbles */}
-      <div 
-        className="absolute -right-4 -top-4 h-32 w-32 rounded-full opacity-40 blur-2xl" 
-        style={{ backgroundColor: '#8DD8FF' }} 
-      />
-      <div 
-        className="absolute -bottom-8 -left-8 h-40 w-40 rounded-full opacity-30 blur-3xl" 
-        style={{ backgroundColor: '#BBFBFF' }} 
-      />
-      <div 
-        className="absolute right-10 top-20 h-12 w-12 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" 
-      />
+        {/* Decorative Bubbles */}
+        <div
+          className="absolute -right-4 -top-4 h-32 w-32 rounded-full opacity-40 blur-2xl"
+          style={{ backgroundColor: '#8DD8FF' }}
+        />
+        <div
+          className="absolute -bottom-8 -left-8 h-40 w-40 rounded-full opacity-30 blur-3xl"
+          style={{ backgroundColor: '#BBFBFF' }}
+        />
+        <div
+          className="absolute right-10 top-20 h-12 w-12 rounded-full border border-white/20 bg-white/10 backdrop-blur-md"
+        />
 
-      {/* Card Content */}
-      <div className="flex flex-col h-full justify-between text-white">
-        <div className="flex justify-between items-start">
-          <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${badgeColor}`}>
-            {badge}
-          </span>
-          <div className="p-3 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30">
-            {icon}
-          </div>
-        </div>
-
-        <div className="mt-8">
-          <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
-          <p className="text-white/80 text-sm mt-1">{subtitle}</p>
-        </div>
-
-        <div className="mt-6 flex items-baseline gap-3">
-          <span className="text-3xl font-black text-[#BBFBFF]">{price}</span>
-          {oldPrice && (
-            <span className="text-lg text-white/50 line-through decoration-white/40">
-              {oldPrice}
+        {/* Card Content */}
+        <div className="flex flex-col h-full justify-between text-white">
+          <div className="flex justify-between items-start">
+            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${badgeColor}`}>
+              {badge}
             </span>
-          )}
+            <div className="p-3 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30">
+              {icon}
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
+            <p className="text-white/80 text-sm mt-1">{subtitle}</p>
+          </div>
+
+          <div className="mt-6 flex items-baseline gap-3">
+            <span className="text-3xl font-black text-[#BBFBFF]">{price}</span>
+            {oldPrice && (
+              <span className="text-lg text-white/50 line-through decoration-white/40">
+                {oldPrice}
+              </span>
+            )}
+          </div>
+
+          <button className="mt-6 w-full py-3 bg-white text-[#5409DA] font-bold rounded-xl hover:bg-[#BBFBFF] transition-colors duration-300">
+            Add to Cart
+          </button>
         </div>
-        
-        <button className="mt-6 w-full py-3 bg-white text-[#5409DA] font-bold rounded-xl hover:bg-[#BBFBFF] transition-colors duration-300">
-          Add to Cart
-        </button>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 
   return (
@@ -235,17 +240,17 @@ export default function Home() {
 
         {/* right container */}
         <div className="lg:col-span-2 space-y-4">
-         
-            <ProductCard
-              badge="HOT DEAL"
-              badgeColor="bg-red-100 text-red-600"
-              title="AirPods Pro 3"
-              subtitle="Active Noise Cancellation · USB-C"
-              price="$189"
-              oldPrice="$329"
-              icon={<Headphones size={28} />}
-            />
-      
+
+          <ProductCard
+            badge="HOT DEAL"
+            badgeColor="bg-red-100 text-red-600"
+            title="AirPods Pro 3"
+            subtitle="Active Noise Cancellation · USB-C"
+            price="$189"
+            oldPrice="$329"
+            icon={<Headphones size={28} />}
+          />
+
 
           <ProductCard
             badge="NEW ARRIVAL"
@@ -264,10 +269,14 @@ export default function Home() {
 
       <div className="max-w-10/12 mx-auto my-5">
 
-        <div >
+        {/* <div >
           <div className="font-bold text-xl">Browse Categories</div>
           <Marque />
-        </div>
+        </div> */}
+        <section className="px-4 md:px-8 py-6 bg-white">
+          <CategoryMarquee />
+        </section>
+
 
         {/* <Hero></Hero> */}
 

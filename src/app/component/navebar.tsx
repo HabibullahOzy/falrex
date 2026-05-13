@@ -46,7 +46,7 @@ export default function Navebar() {
                                     </ul>
                                 </details>
                             </li> */}
-                            <li><Link href={'/dashboard/admindashboard/creatproduct'}>Add product</Link></li>
+                            {/* <li><Link href={'/dashboard/admindashboard/creatproduct'}>Add product</Link></li> */}
                         </ul>
                     </div>
                     <div className="navbar-end mr-15 gap-5">

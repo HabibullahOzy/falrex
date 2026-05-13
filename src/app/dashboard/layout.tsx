@@ -13,11 +13,14 @@ export default function Dashlayout({children}) {
 // import * as jose from "jose";
 // import { redirect } from "next/navigation";
 // import DashboardShell from "./DashboardShell";
+// // Add this line forces dynamic rendering for the whole dashboard
+// export const dynamic = "force-dynamic";
 
 // const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+// console.log(JWT_SECRET)
 
 // async function getUser() {
-//   const cookieStore = cookies();
+//   const cookieStore = await cookies();
 //   const token = cookieStore.get("auth_token")?.value;
 //   if (!token) return null;
 //   try {

@@ -17,6 +17,7 @@ async function exchangeToken(firebaseToken: string) {
     credentials: "include",    // ← send/receive cookies
     body: JSON.stringify({ firebaseToken }),
   });
+  console.log(res)
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.message || "Login failed");
@@ -41,8 +42,11 @@ export async function signInWithGoogle() {
 // ── Email Sign In ──────────────────────────────────────────────────────────
 export async function signInWithEmail(email: string, password: string) {
   const result        = await signInWithEmailAndPassword(auth, email, password);
+  console.log(result)
   const firebaseToken = await result.user.getIdToken();
+  console.log(firebaseToken)
   const data          = await exchangeToken(firebaseToken);
+  console.log(data)
   return { user: result.user, ...data };
 }
 
@@ -77,6 +81,7 @@ export async function registerUser(payload: {
     credentials: "include",
     body: JSON.stringify({ firebaseToken, email, authProvider: "email", ...rest }),
   });
+  console.log(res)
 
   if (!res.ok) {
     const err = await res.json();
@@ -115,6 +120,7 @@ export async function verifyOTP(otpCode: string) {
   const result        = await confirmationResult.confirm(otpCode);
   const firebaseToken = await result.user.getIdToken();
   const data          = await exchangeToken(firebaseToken);
+  console.log("verifyotp result", result,"verifyotp firebasetoken", firebaseToken,"verifyotp data", data)
   return { user: result.user, ...data };
 }
 

@@ -250,8 +250,10 @@ export default function BusinessDashboard() {
           )} */}
           <Link href={'/dashboard/admindashboard/creatproduct'} className="text-lg">Add Product</Link>
           <Link href={'/dashboard/admindashboard/adminactionproduct'} className="text-lg">All Products</Link>
-          <Link href={'/dashboard/admindashboard/categorycreat'} className="text-lg">Create Category</Link>
+          <Link href={'/dashboard/admindashboard/categorycreat/create'} className="text-lg">Create Category</Link>
+          <Link href={'/dashboard/admindashboard/categorycreat/categorylist'} className="text-lg">All Category</Link>
           <Link href={'/dashboard/admindashboard/allusers'} className="text-lg">All Users</Link>
+          <Link href={'/dashboard/admin'} className="text-lg">Admin</Link>
         </nav>
 
         <div className={`${styles.sidebarControls} w-full`}>

@@ -57,7 +57,7 @@ export default function CartButtons({
         <button
           onClick={handleAddToCart}
           disabled={addLoading || disabled}
-          className={`flex-1 flex items-center justify-center gap-2 rounded-full px-2 py-1 text-[11px] font-bold transition ${
+          className={`flex-1 flex items-center justify-center gap-2 rounded-full px-1 py-1 text-[10px] font-bold transition ${
             added
               ? "bg-green-600 text-white"
               : "border border-black bg-white hover:bg-slate-50"
@@ -76,11 +76,11 @@ export default function CartButtons({
         <button
           onClick={handleBuyNow}
           disabled={buyLoading || disabled}
-          className="flex-1 flex items-center justify-center gap-2 rounded-full bg-[#7149f5] px-2 py-1 text-[11px] font-bold text-white hover:bg-[#8e6bff] disabled:opacity-50 transition"
+          className="flex-1 flex items-center justify-center gap-2 rounded-full bg-[#7149f5] px-1 py-1 text-[10px] font-bold text-white hover:bg-[#8e6bff] disabled:opacity-50 transition"
         >
           {buyLoading
             ? <Loader2 className=" animate-spin" />
-            : <><Zap className="" /> Buy Now</>
+            : <><Zap className="w-2" /> Buy Now</>
           }
         </button>
       </div>

@@ -9,6 +9,7 @@ import Link from "next/link";
 import RelatedProducts from "../relatedProducts/page";
 import CartButtons from "../CartButtons";
 import ProductReviews from "@/app/component/reviewcomp/ProductReviews";
+import ChatButton from "@/app/component/socialCommunication/ChatButton";
 
 interface ProductImage {
   url: string;
@@ -892,9 +893,15 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
               // variation={selectedVariation}   // optional — from variation state
               quantity={1}
             />
-            <button className="flex-1 rounded-full bg-[#7149f5] px-6 py-3 text-sm font-bold text-white hover:bg-[#8e6bff]">
+            {/* <button className="flex-1 rounded-full bg-[#7149f5] px-6 py-3 text-sm font-bold text-white hover:bg-[#8e6bff]">
               Chat Now
-            </button>
+            </button> */}
+
+            <ChatButton
+              targetUid={product.supplierUid || "seller-uid"}
+              targetName={product.supplierName || "Seller"}
+              targetRole="seller"
+            />
           </div>
         </aside>
 
@@ -916,6 +923,30 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
             >
               Try Now
             </Link>
+
+
+            {/* {
+              if(product.category=="Fashion & Apparel"){
+                if(product.subSubCategories == "Sunglasses"){
+<Link
+              href={`/tryonvertually/juelarytryon/${product._id}`}
+              className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
+            >
+              Try Now
+            </Link>
+                }
+            
+              }else if(product.category == "Jewellery & Accessories"){
+              <Link
+                href={`/tryonvertually/juelarytryon/${product._id}`}
+                className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
+              >
+                {product.category}Try Now
+              </Link>
+            }else if(){
+
+            }
+            } */}
           </div>
         </div>
       </div>

@@ -9,6 +9,8 @@ import {
   Package, TrendingUp, DollarSign, Layers, Eye,
   Download, Filter, ChevronLeft, ChevronRight
 } from "lucide-react";
+// import UpdateProduct from "../updateProduct/page";
+import { Router } from "next/router";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface ProductImage { url: string; public_id: string; _id: string; }
@@ -421,7 +423,7 @@ export default function AdminProducts() {
         ...(filterCategory && { category: filterCategory }),
       });
 
-      const res  = await fetch(`http://localhost:5000/product?${params}`);
+      const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product?${params}`);
       if (!res.ok) throw new Error(`Server error ${res.status}`);
       const json = await res.json();
       if (!json.success) throw new Error(json.message);
@@ -450,7 +452,7 @@ export default function AdminProducts() {
     if (!deleteTarget) return;
     setDeleteLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/product/${deleteTarget._id}`, { method: "DELETE" });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${deleteTarget._id}`, { method: "DELETE" });
       const json = await res.json();
       if (!json.success) throw new Error(json.message);
       setToast({ message: "Product deleted successfully", type: "success" });
@@ -470,7 +472,7 @@ export default function AdminProducts() {
     try {
       await Promise.all(
         Array.from(selectedIds).map((id) =>
-          fetch(`http://localhost:5000/product/${id}`, { method: "DELETE" })
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`, { method: "DELETE" })
         )
       );
       setToast({ message: `${selectedIds.size} products deleted`, type: "success" });
@@ -802,11 +804,16 @@ export default function AdminProducts() {
                             </button>
 
                             {/* Edit */}
-                            <Link href={`/admin/products/edit/${product._id}`}
+                            <Link href={`/dashboard/admindashboard/updateProduct/${product._id}`}
                               title="Edit Product"
                               className="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center transition">
                               <Pencil className="w-3.5 h-3.5" />
                             </Link>
+{/* <UpdateProduct
+  productId="64abc..."
+  onSuccess={(product) => console.log("Updated:", product)}
+  onCancel={() => Router.back()}
+/> */}
 
                             {/* View */}
                             <Link href={`/products/${product._id}`}

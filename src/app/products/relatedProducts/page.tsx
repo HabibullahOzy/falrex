@@ -39,7 +39,7 @@ function ProductCard({ product }: { product: Product }) {
 
   const handleAddToCart = async () => {
     try {
-      const res = await fetch("http://localhost:5000/cart/add", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId: product._id, quantity: 1 }),
@@ -175,7 +175,7 @@ export default function RelatedProducts({
       try {
         const encoded = encodeURIComponent(subSubcategory);
         const res = await fetch(
-          `http://localhost:5000/product/subsubcategory/${encoded}`
+          `${process.env.NEXT_PUBLIC_API_URL}/product/subsubcategory/${encoded}`
         );
         if (!res.ok) throw new Error("Failed to fetch related products");
 

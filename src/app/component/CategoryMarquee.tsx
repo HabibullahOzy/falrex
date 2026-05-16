@@ -330,9 +330,9 @@ export default function CategoryMarquee() {
       )}
 
       {/* ── View all link ── */}
-      {categories.length > 0 && (
+      {/* {categories.length > 0 && (
         <div className="text-center mt-6">
-          <Link href="/categories"
+          <Link href="/component/category"
             className="inline-flex items-center gap-2 text-sm font-semibold
                        text-purple-600 hover:text-purple-700
                        bg-purple-50 hover:bg-purple-100
@@ -341,7 +341,7 @@ export default function CategoryMarquee() {
             View All {categories.length} Categories
           </Link>
         </div>
-      )}
+      )} */}
     </section>
   );
 }

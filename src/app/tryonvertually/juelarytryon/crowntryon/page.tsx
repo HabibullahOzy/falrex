@@ -316,7 +316,7 @@ function dist(a: { x: number; y: number }, b: { x: number; y: number }) {
   return Math.hypot(b.x - a.x, b.y - a.y);
 }
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = `${process.env.NEXT_PUBLIC_API_URL}`;
 
 // ══════════════════════════════════════════════════════════════════════════════
 // Crown calibration

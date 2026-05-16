@@ -1441,7 +1441,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import styles from "../social.module.css";
+import styles from "../social/social.module.css";
 import Link from "next/link";
 import logoe from "../../../assets/falrex2.png"
 import Image from "next/image";

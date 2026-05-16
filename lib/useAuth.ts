@@ -22,9 +22,9 @@ export function useAuth() {
           `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
           { credentials: "include" }
         );
-        console.log(res)
         if (!res.ok) { setUser(null); return; }
         const json = await res.json();
+         console.log(json)
         setUser(json.user);
       } catch { setUser(null); }
       finally   { setLoading(false); }

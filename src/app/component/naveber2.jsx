@@ -10,6 +10,7 @@ import { FaCartArrowDown } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { ShoppingCart } from "lucide-react";
 import CartDrawer from "../products/orderprocess/cart/page";
+import { useAuth } from "../../../lib/useAuth";
 
 // ✅ Product data
 const productData = [
@@ -83,6 +84,8 @@ const getImageHash = (src) => {
   });
 };
 
+
+
 // ✅ Hamming distance between 2 hashes
 const hammingDistance = (h1, h2) => {
   if (!h1 || !h2) return 64;
@@ -103,6 +106,9 @@ export default function Navebar2() {
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
    const { cart } = useCart();
+
+   const {user} =useAuth()
+console.log(user)
 
   // ✅ Precompute product image hashes
   useEffect(() => {

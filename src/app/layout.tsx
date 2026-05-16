@@ -7,6 +7,8 @@ import Footer from "./component/footer/page";
 import Marquee from "react-fast-marquee";
 import FirebaseAnalytics from "./FirebaseAnalytics";
 import { CartProvider } from "./context/CartContext";
+import ChatProviderWrapper from "./component/socialCommunication/ChatProviderWrapper";
+import { AuthProvider } from "./context/AuthContext";
 // import { Construction } from "lucide-react";
 
 const geistSans = Geist({
@@ -49,11 +51,15 @@ export default function RootLayout({
 
 
           <FirebaseAnalytics></FirebaseAnalytics>
-          <CartProvider>
-            <Navebar2 />
-            <Navebar />
-            {children}
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              <ChatProviderWrapper>
+                <Navebar2 />
+                <Navebar />
+                {children}
+              </ChatProviderWrapper>
+            </CartProvider>
+          </AuthProvider>
           <Footer />
         </main>
 

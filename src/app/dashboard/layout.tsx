@@ -39,3 +39,33 @@ export default function Dashlayout({children}) {
 
 //   return <DashboardShell user={user}>{children}</DashboardShell>;
 // }
+
+
+// app/dashboard/layout.tsx  (Server Component)
+// import { cookies } from "next/headers";
+// import { jwtVerify } from "jose";
+// import { redirect } from "next/navigation";
+// import DashboardShell from "./DashboardShell";
+
+// const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+// export default async function Dashlayout({ children }: { children: React.ReactNode }) {
+//   const token = cookies().get("auth_token")?.value;
+
+//   if (!token) redirect("/login");
+
+//   try {
+//     const { payload } = await jwtVerify(token, JWT_SECRET);
+//     const role = payload.role as string;
+
+//     return (
+//       <div>
+//         <DashboardShell role={role} uid={payload.uid as string}>
+//           {children}
+//         </DashboardShell>
+//       </div>
+//     );
+//   } catch {
+//     redirect("/login");
+//   }
+// }

@@ -4,7 +4,7 @@ import ProductDetails from "../productdetails/page";
 // ── Fetch all product IDs at BUILD TIME ────────────────────────────────────
 export async function generateStaticParams() {
   try {
-    const res  = await fetch("http://localhost:5000/product");
+    const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product`);
     const json = await res.json();
     
     return (json.data || []).map((product: { _id: string }) => ({
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 // ── Fetch single product ───────────────────────────────────────────────────
 async function getProduct(id: string) {
   try {
-    const res = await fetch(`http://localhost:5000/product/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`, {
       cache: "no-store",
     });
     if (!res.ok) return null;

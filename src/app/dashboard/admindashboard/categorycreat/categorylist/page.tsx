@@ -124,7 +124,7 @@ function CategoryCard({
 
         {/* Actions */}
         <div className="absolute top-2 right-2 flex gap-1">
-          <Link href={`/dashboard/categories/edit/${cat._id}`}
+          <Link href={`/dashboard/admindashboard/categorycreat/${cat._id}/edit`}
             className="w-7 h-7 rounded-lg bg-white/90 hover:bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm transition">
             <Pencil className="w-3.5 h-3.5" />
           </Link>

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, X, Package, Tag, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -133,7 +134,7 @@ export default function CategoriesPage() {
                     {/* Image / gradient */}
                     <div className={`relative h-28 ${!hasImage ? `bg-gradient-to-br ${gradient}` : ""}`}>
                       {hasImage ? (
-                        <img src={cat.image.url} alt={cat.name}
+                        <Image src={cat.image.url} alt={cat.name}
                           className="w-full h-full object-cover" loading="lazy" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-4xl">

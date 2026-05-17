@@ -7,6 +7,7 @@ import {
   Lightbulb, Edit3, GripVertical, Tag, ArrowLeft,
   RefreshCw,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -454,7 +455,7 @@ export default function UpdateCategoryPage() {
             >
               {preview && !removeImage ? (
                 <>
-                  <img src={preview} alt="preview"
+                  <Image width={10} height={10} src={preview} alt="preview"
                     className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition">
                     <div className="text-white text-center">

@@ -10,6 +10,9 @@ import RelatedProducts from "../relatedProducts/page";
 import CartButtons from "../CartButtons";
 import ProductReviews from "@/app/component/reviewcomp/ProductReviews";
 import ChatButton from "@/app/component/socialCommunication/ChatButton";
+import Image from "next/image";
+import Neclesstryon from "@/app/tryonvertually/juelarytryon/neclesstryon/page";
+import TryOnButton from "@/app/tryonvertually/Tryonbutton";
 
 interface ProductImage {
   url: string;
@@ -732,7 +735,7 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                   {item.includes(".mp4") || item.includes("youtube") ? (
                     <span className="px-1 text-center text-xs font-semibold">▶ Video</span>
                   ) : (
-                    <img src={item} alt={`thumb-${index}`} className="h-full w-full object-cover" />
+                    <Image width={10} height={10} src={item} alt={`thumb-${index}`} className="h-full w-full object-cover" />
                   )}
                 </button>
               ))}
@@ -859,7 +862,7 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                     className={`h-14 w-14 overflow-hidden rounded-lg border bg-white p-1 ${currentIndex === index ? "border-2 border-black" : "border-slate-200"
                       }`}
                   >
-                    <img src={url} alt={`variation-${index}`} className="h-full w-full object-cover" />
+                    <Image width={10} height={10} src={url} alt={`variation-${index}`} className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -881,7 +884,7 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
             </p>
           )}
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex gap-3 sm:flex-row">
             {/* <button className="flex-1 rounded-full bg-[#7149f5] px-6 py-3 text-sm font-bold text-white hover:bg-[#8e6bff]">
               Buy Now
             </button> */}
@@ -898,7 +901,7 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
             </button> */}
 
             <ChatButton
-              targetUid={product.supplierUid || "seller-uid"}
+              targetUid={product?.supplierUid || "seller-uid"}
               targetName={product.supplierName || "Seller"}
               targetRole="seller"
             />
@@ -917,21 +920,21 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
               Preview this product in a virtual fitting experience.
             </p>
 
-            <Link
+            {/* <Link
               href={`/tryonvertually/juelarytryon/${product._id}`}
               className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
             >
               Try Now
-            </Link>
-
+            </Link> */}
+            <TryOnButton product={product} mode="inline" />
 
             {/* {
               if(product.category=="Fashion & Apparel"){
                 if(product.subSubCategories == "Sunglasses"){
-<Link
+<button onclick={}
               href={`/tryonvertually/juelarytryon/${product._id}`}
               className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
-            >
+            ><Neclesstryon prodductimage={product.images.[]}></Neclesstryon>
               Try Now
             </Link>
                 }
@@ -1148,7 +1151,7 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                   {item.includes(".mp4") || item.includes("youtube") ? (
                     <span className="text-xs font-semibold">▶</span>
                   ) : (
-                    <img src={item} alt="thumb" className="h-full w-full object-cover" />
+                    <Image width={10} height={10} src={item} alt="thumb" className="h-full w-full object-cover" />
                   )}
                 </button>
               ))}

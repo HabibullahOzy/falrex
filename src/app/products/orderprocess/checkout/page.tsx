@@ -5,6 +5,7 @@ import { placeOrder } from "../../../../../lib/cartHelpers";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Loader2 } from "lucide-react";
 import OrderSuccessScreen from "@/app/component/ordercomp/OrderSuccessScreen";
+import Image from "next/image";
 
 const COUNTRIES = ["Bangladesh (BD)", "China (CN)", "India (IN)", "United States (US)", "United Kingdom (GB)", "Other"];
 
@@ -215,7 +216,7 @@ export default function CheckoutPage() {
                   {cart.items.map((item) => (
                     <div key={item._id} className="flex gap-3">
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                        {item.image && <img src={item.image} alt={item.nameEng} className="w-full h-full object-cover" />}
+                        {item.image && <Image width={10} height={10} src={item.image} alt={item.nameEng} className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium text-gray-700 line-clamp-1">{item.nameEng}</p>

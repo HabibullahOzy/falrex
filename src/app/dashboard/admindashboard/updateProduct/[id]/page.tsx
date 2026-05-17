@@ -7,6 +7,7 @@ import {
   Loader2, CheckCircle, AlertTriangle, Trash2,
   Image as ImageIcon, Video, RefreshCw,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -768,7 +769,7 @@ export default function EditProductPage() {
                 <div className="flex flex-wrap gap-3">
                   {existingImages.map((img) => (
                     <div key={img._id} className="relative w-24 h-24 group">
-                      <img src={img.url} alt="existing"
+                      <Image width={10} height={10} src={img.url} alt="existing"
                         className="w-full h-full object-cover rounded-xl border border-gray-200" />
                       <button
                         type="button"
@@ -809,7 +810,7 @@ export default function EditProductPage() {
                 <div className="flex flex-wrap gap-3 mt-3">
                   {newImages.map((img, idx) => (
                     <div key={idx} className="relative w-24 h-24 group">
-                      <img src={URL.createObjectURL(img)} alt="new"
+                      <Image width={10} height={10} src={URL.createObjectURL(img)} alt="new"
                         className="w-full h-full object-cover rounded-xl border-2 border-green-300" />
                       <button type="button"
                         onClick={() => setNewImages((prev) => prev.filter((_, i) => i !== idx))}

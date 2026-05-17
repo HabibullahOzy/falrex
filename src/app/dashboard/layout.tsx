@@ -1,10 +1,21 @@
+"use client"
 
+import { useState, type ReactNode } from 'react'
+import DashboardNav from './dashboardbody/dashboardNav/DashboardNav'
 
-export default function Dashlayout({children}) {
+export default function Dashlayout({ children }: { children: ReactNode }) {
+    const [navOpen, setNavOpen]             = useState(true);
+     const handleRate = 68.4;
     return (
-        <div>{children}
-        </div>
-    );
+        <div>
+            <DashboardNav
+                    isOpen={navOpen}
+                    onToggle={() => setNavOpen((p) => !p)}
+                    handleRate={handleRate}
+                  />
+            {children}
+            </div>
+    )
 }
 
 

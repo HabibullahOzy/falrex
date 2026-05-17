@@ -50,18 +50,18 @@ export default function Navebar() {
                         </ul>
                     </div>
                     <div className="navbar-end mr-15 gap-5">
-                        <a
+                        <Link
                             href="/products/filterproducts"
                             className="rounded-full buttonbg bg-blue-600 px-5 py-2 text-xl font-semibold text-white shadow-sm transition hover:bg-blue-700"
                         >
                             <FaFilterCircleDollar />
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="/component/socialCommunication/social"
                             className="rounded-full buttonbg bg-blue-600 px-5 py-2 text-xl font-semibold text-white shadow-sm transition hover:bg-blue-700"
                         >
                             <BsBrowserSafari />
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </nav>

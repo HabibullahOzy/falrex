@@ -6,6 +6,7 @@ import {
   Pencil, Trash2, ChevronDown, ChevronRight,
   AlertTriangle, CheckCircle, Package, Filter,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -110,7 +111,7 @@ function CategoryCard({
       {/* Image */}
       <div className="relative h-32 bg-gray-50">
         {cat.image?.url ? (
-          <img src={cat.image.url} alt={cat.name} className="w-full h-full object-cover" />
+          <Image width={10} height={10} src={cat.image.url} alt={cat.name} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <Package className="w-10 h-10 text-gray-200" />

@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Package, ShoppingCart, TrendingUp, Star, RefreshCw, Eye } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -52,10 +54,10 @@ export default function SellerDashboard() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50">
           <h2 className="text-sm font-bold text-gray-800">My Latest Products</h2>
-          <a href="/dashboard/seller/products"
+          <Link href="/dashboard/seller/products"
             className="text-xs text-blue-600 font-semibold flex items-center gap-1">
             View all <Eye className="w-3 h-3" />
-          </a>
+          </Link>
         </div>
 
         {loading ? (
@@ -66,9 +68,9 @@ export default function SellerDashboard() {
           <div className="py-12 text-center text-gray-400 text-sm">
             <Package className="w-10 h-10 mx-auto mb-3 opacity-30" />
             No products yet.
-            <a href="/dashboard/seller/create-product" className="block mt-2 text-blue-600 font-semibold text-xs">
+            <Link href="/dashboard/seller/create-product" className="block mt-2 text-blue-600 font-semibold text-xs">
               + Add your first product
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="divide-y divide-gray-50">
@@ -76,7 +78,7 @@ export default function SellerDashboard() {
               <div key={p._id} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
                 <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                   {p.images?.[0]?.url
-                    ? <img src={p.images[0].url} alt={p.nameEng} className="w-full h-full object-cover" />
+                    ? <Image src={p.images[0].url} alt={p.nameEng} className="w-full h-full object-cover" />
                     : <div className="w-full h-full flex items-center justify-center"><Package className="w-4 h-4 text-gray-300" /></div>
                   }
                 </div>

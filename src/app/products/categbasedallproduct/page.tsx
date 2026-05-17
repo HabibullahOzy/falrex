@@ -8,6 +8,7 @@ import {
   ArrowUpDown, Filter, ChevronLeft,
   ChevronUp, Tag, Zap, Check, Grid3x3, List,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -98,7 +99,7 @@ function ProductCard({ product }: { product: Product }) {
       {/* Image */}
       <div className="relative h-44 bg-gray-50 overflow-hidden">
         {img ? (
-          <img src={img} alt={product.nameEng}
+          <Image src={img} alt={product.nameEng}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy" />
         ) : (
@@ -194,7 +195,7 @@ function ProductRow({ product }: { product: Product }) {
       className="group flex gap-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition p-3 items-center">
       <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0">
         {img
-          ? <img src={img} alt={product.nameEng} className="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" />
+          ? <Image src={img} alt={product.nameEng} className="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" />
           : <div className="w-full h-full flex items-center justify-center"><Package className="w-6 h-6 text-gray-200" /></div>
         }
       </div>

@@ -1,0 +1,438 @@
+/* ── DashboardBody.module.css ───────────────────────────── */
+
+.body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+  color: #e4e4ef;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 0 32px;
+}
+
+/* ── Top bar ── */
+.topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 18px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #4f8ef7;
+  margin: 0 0 4px;
+}
+
+.pageTitle {
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 700;
+  color: #f1f1f3;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.topbarControls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.controlLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: rgba(255,255,255,0.3);
+}
+
+.select {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #e4e4ef;
+  font-size: 12px;
+  font-family: inherit;
+  padding: 6px 10px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+  min-width: 110px;
+}
+.select:focus, .select:hover {
+  border-color: rgba(79,142,247,0.5);
+}
+.select option { background: #16162a; }
+
+/* ── KPI grid ── */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .kpiGrid { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
+.kpiCard {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.kpiCard:hover {
+  background: rgba(79,142,247,0.06);
+  border-color: rgba(79,142,247,0.2);
+}
+
+.kpiLabel {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin: 0;
+}
+
+.kpiValue {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  color: #f1f1f3;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.kpiDetail {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.trend_up      { color: #4ade80; }
+.trend_down    { color: #f87171; }
+.trend_neutral { color: rgba(255,255,255,0.3); }
+
+/* ── Panels shared ── */
+.panel {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 20px;
+  overflow: hidden;
+}
+.panel:hover { border-color: rgba(255,255,255,0.1); }
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.panelHead h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e4e4ef;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* ── Analysis grid ── */
+.analysisGrid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 900px) {
+  .analysisGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Chart ── */
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.gridLine {
+  stroke: rgba(255,255,255,0.05);
+  stroke-width: 1;
+  fill: none;
+}
+
+.ordersLine {
+  fill: none;
+  stroke: #4f8ef7;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.handledLine {
+  fill: none;
+  stroke: #a78bfa;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 5 3;
+}
+
+.chartLabel {
+  fill: rgba(255,255,255,0.3);
+  font-size: 9px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  flex-wrap: wrap;
+}
+.legend span { display: flex; align-items: center; gap: 5px; }
+.dotBlue   { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4f8ef7; flex-shrink: 0; }
+.dotPurple { display: inline-block; width: 8px; height: 3px; border-radius: 1px; background: #a78bfa; flex-shrink: 0; }
+
+/* ── Segments ── */
+.segments {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.segRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.segMeta {
+  display: flex;
+  justify-content: space-between;
+  grid-column: 1 / -1;
+  font-size: 12px;
+}
+.segMeta strong { color: #e4e4ef; font-weight: 600; }
+.segMeta span   { color: rgba(255,255,255,0.35); font-size: 11px; }
+
+.segTrack {
+  height: 5px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  overflow: hidden;
+  grid-column: 1 / 3;
+}
+
+.segFill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.segPct {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  text-align: right;
+  min-width: 30px;
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.segRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.segRow {
+  display: grid;
+  grid-template-areas:
+    "meta meta"
+    "track pct";
+  grid-template-columns: 1fr auto;
+  gap: 5px 8px;
+}
+.segMeta  { grid-area: meta; }
+.segTrack { grid-area: track; }
+.segPct   { grid-area: pct; }
+
+/* ── Lower grid ── */
+.lowerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 14px;
+}
+@media (max-width: 900px) {
+  .lowerGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Funnel ── */
+.funnel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.funnelRow {
+  display: grid;
+  grid-template-columns: 64px 1fr 54px 42px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.funnelLabel {
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+
+.funnelTrack {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.funnelFill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #4f8ef7, #7b5fe8);
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.funnelNum  { color: #e4e4ef; font-weight: 600; text-align: right; }
+.funnelRate { color: #4ade80; font-weight: 700; font-size: 11px; text-align: right; }
+
+/* ── Table ── */
+.tableWrap {
+  overflow-x: auto;
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.table thead tr {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.table th {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.3);
+  padding: 0 10px 10px 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.12s;
+}
+.table tbody tr:hover { background: rgba(255,255,255,0.02); }
+.table tbody tr:last-child { border-bottom: none; }
+
+.table td {
+  padding: 10px 10px 10px 0;
+  vertical-align: middle;
+}
+
+.orderId  { display: block; font-weight: 700; color: #e4e4ef; font-size: 12px; }
+.orderSub { display: block; font-size: 10.5px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+.num      { color: rgba(255,255,255,0.6); font-weight: 600; }
+.handler  { color: rgba(255,255,255,0.5); font-size: 11.5px; white-space: nowrap; }
+.eta      { font-weight: 600; font-size: 11.5px; color: rgba(255,255,255,0.5); white-space: nowrap; }
+
+/* Status pills */
+.statusPill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.statusNew        { background: rgba(79,142,247,0.15);  color: #7db5ff; }
+.statusProcessing { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+.statusShipped    { background: rgba(167,139,250,0.15); color: #c4b5fd; }
+.statusDelivered  { background: rgba(34,197,94,0.15);   color: #4ade80; }
+.statusReturned   { background: rgba(248,113,113,0.15); color: #fca5a5; }
+
+/* ── Badge ── */
+.badge {
+  background: rgba(79,142,247,0.12);
+  color: #7db5ff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Slider bar ── */
+.sliderBar {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 14px 20px;
+}
+
+.sliderLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  cursor: pointer;
+}
+.sliderLabel strong { color: #7db5ff; }
+
+.slider {
+  flex: 1;
+  min-width: 120px;
+  max-width: 280px;
+  accent-color: #4f8ef7;
+  height: 4px;
+  cursor: pointer;
+}

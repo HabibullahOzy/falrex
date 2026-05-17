@@ -561,7 +561,7 @@ function ProductCard({ product, index }) {
     >
       <div className="grid gap-0 sm:grid-cols-[220px_1fr]">
         <div className="relative overflow-hidden bg-gray-100">
-          <img
+          <Image
             src={product.images[0]}
             alt={product.name}
             className="h-64 w-full object-cover transition duration-300 group-hover:scale-105 sm:h-full"

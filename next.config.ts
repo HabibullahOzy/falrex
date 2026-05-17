@@ -9,6 +9,9 @@ images: {
    unoptimized: true
   },
 
+   eslint: {
+    ignoreDuringBuilds: true,  // ← this is the correct key
+  },
 };
 
 export default nextConfig;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Star, Send, Loader2, CheckCircle, Package } from "lucide-react";
 import { cartHeaders } from "../../../../lib/cartHelpers";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -140,7 +141,7 @@ export default function ReviewModal({ orderId, product, onSubmit, onClose }: Pro
                 <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
                   <div className="w-12 h-12 rounded-xl overflow-hidden bg-gray-200 flex-shrink-0">
                     {product.image
-                      ? <img src={product.image} alt={product.nameEng} className="w-full h-full object-cover" />
+                      ? <Image width={10} height={10} src={product.image} alt={product.nameEng} className="w-full h-full object-cover" />
                       : <div className="w-full h-full flex items-center justify-center"><Package className="w-5 h-5 text-gray-300" /></div>
                     }
                   </div>

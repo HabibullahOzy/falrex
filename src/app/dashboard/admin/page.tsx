@@ -5,6 +5,8 @@ import {
   DollarSign, ArrowUpRight, ArrowDownRight,
   RefreshCw, Store, Tag, Eye,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -342,10 +344,10 @@ export default function AdminDashboard() {
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-widest">Catalogue</p>
               <h2 className="text-sm font-bold text-gray-800">Recent Products</h2>
             </div>
-            <a href="/dashboard/admin/products"
+            <Link href="/dashboard/admin/products"
               className="text-xs text-purple-600 font-semibold hover:text-purple-700 flex items-center gap-1">
               View all <Eye className="w-3 h-3" />
-            </a>
+            </Link>
           </div>
           <div className="divide-y divide-gray-50">
             {(stats?.recentProducts || []).length === 0 ? (
@@ -358,7 +360,7 @@ export default function AdminDashboard() {
                   <div key={p._id} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
                     <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                       {img ? (
-                        <img src={img} alt={p.nameEng} className="w-full h-full object-cover" />
+                        <Image width={10} height={10} src={img} alt={p.nameEng} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <Package className="w-4 h-4 text-gray-300" />
@@ -389,10 +391,10 @@ export default function AdminDashboard() {
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-widest">Community</p>
               <h2 className="text-sm font-bold text-gray-800">Recent Users</h2>
             </div>
-            <a href="/dashboard/admin/users"
+            <Link href="/dashboard/admin/users"
               className="text-xs text-purple-600 font-semibold hover:text-purple-700 flex items-center gap-1">
               View all <Eye className="w-3 h-3" />
-            </a>
+            </Link>
           </div>
           <div className="divide-y divide-gray-50">
             {(stats?.recentUsers || []).length === 0 ? (
@@ -450,10 +452,10 @@ export default function AdminDashboard() {
               Review and approve seller applications to activate their accounts.
             </p>
           </div>
-          <a href="/dashboard/admin/sellers"
+          <Link href="/dashboard/admin/sellers"
             className="px-4 py-2 bg-amber-600 text-white rounded-xl text-sm font-semibold hover:bg-amber-700 transition flex-shrink-0">
             Review Now
-          </a>
+          </Link>
         </div>
       ) : null}
     </div>

@@ -1,0 +1,84 @@
+/* ── dashboard.module.css ── */
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: #0d0d1a;
+  position: relative;
+  transition: background 0.3s;
+}
+
+/* ── Sidebar offset ── */
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 28px 0;
+  transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navOpen .main  { margin-left: 240px; }
+.navClosed .main{ margin-left: 64px;  }
+
+/* ── Mobile topbar ── */
+.mobileTopbar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: #0a0a0f;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  z-index: 300;
+}
+
+.hamburger {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px;
+  border-radius: 6px;
+}
+.hamburger span {
+  display: block;
+  height: 1.5px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.hamburger:hover span { background: #fff; }
+
+.mobileBrand {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f1f1f3;
+  letter-spacing: -0.01em;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 768px) {
+  .mobileTopbar { display: flex; }
+
+  .navOpen .main,
+  .navClosed .main {
+    margin-left: 0;
+    padding: 72px 16px 0; /* topbar height + gap */
+  }
+}
+
+@media (max-width: 480px) {
+  .navOpen .main,
+  .navClosed .main {
+    padding: 68px 12px 0;
+  }
+}

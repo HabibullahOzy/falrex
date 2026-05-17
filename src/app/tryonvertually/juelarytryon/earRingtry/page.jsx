@@ -181,13 +181,13 @@ export default function EarRingtry() {
 
               {mediapipeAvailable && (
                 <>
-                  <img
+                  <Image
                     ref={leftEarringRef}
                     src={earringImg.src}
                     alt="left earring"
                     className="absolute pointer-events-none opacity-0 select-none transition-all"
                   />
-                  <img
+                  <Image
                     ref={rightEarringRef}
                     src={earringImg.src}
                     alt="right earring"

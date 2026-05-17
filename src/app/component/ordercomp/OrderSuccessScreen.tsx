@@ -3,6 +3,7 @@ import { useState } from "react";
 import { CheckCircle, Star, X, ChevronRight, Package } from "lucide-react";
 import ReviewModal from "../reviewcomp/ReviewModal";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface OrderItem {
   productId: string;
@@ -96,7 +97,7 @@ export default function OrderSuccessScreen({
                       {/* Product image */}
                       <div className="w-11 h-11 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                         {item.image
-                          ? <img src={item.image} alt={item.nameEng} className="w-full h-full object-cover" />
+                          ? <Image width={10} height={10} src={item.image} alt={item.nameEng} className="w-full h-full object-cover" />
                           : <div className="w-full h-full flex items-center justify-center"><Package className="w-5 h-5 text-gray-300" /></div>
                         }
                       </div>

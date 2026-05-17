@@ -281,7 +281,7 @@ console.log(user)
   <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 </>
 
-  <a
+  <Link
     href="/products/filterproducts"
     className="relative flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-blue-600 hover:text-white"
   >
@@ -289,7 +289,7 @@ console.log(user)
     <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-xs font-semibold text-white">
       5
     </span>
-  </a>
+  </Link>
 
  
 </div>
@@ -308,17 +308,17 @@ console.log(user)
           className="dropdown-content menu bg-white rounded-box z-10 mt-3 w-52 p-2 shadow-lg"
         >
           <li>
-            <a href="/dashboard">Dash Board</a>
+            <Link href="/dashboard">Dash Board</Link>
           </li>
           
           <li>
-            <a href="/signup">Sign UP</a>
+            <Link href="/signup">Sign UP</Link>
           </li>
           <li>
-            <a href="/login">Login</a>
+            <Link href="/login">Login</Link>
           </li>
           <li>
-            <a href="/login">Profile</a>
+            <Link href="/login">Profile</Link>
           </li>
         </ul>
       </div>

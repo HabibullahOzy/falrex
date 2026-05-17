@@ -167,7 +167,7 @@ function Avatar({ src, alt, size = 48 }: { src: string; alt: string; size?: numb
       className="avatar-ring"
       style={{ width: size, height: size, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}
     >
-      <img src={src} alt={alt} width={size} height={size} style={{ display: "block" }} />
+      <Image src={src} alt={alt} width={size} height={size} style={{ display: "block" }} />
     </div>
   );
 }
@@ -303,7 +303,7 @@ function PostCard({ post, onUpdate }: { post: Post; onUpdate: (p: Post) => void 
       {/* Image */}
       {post.image && (
         <div className="post-image-wrap">
-          <img src={post.image} alt="Post" className="post-image" />
+          <Image src={post.image} alt="Post" className="post-image" />
         </div>
       )}
 
@@ -466,7 +466,7 @@ function Sidebar() {
       <div className="sidebar-card profile-card">
         <div className="profile-banner" />
         <div className="profile-avatar-wrap">
-          <img
+          <Image
             src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
             alt="Profile"
             className="profile-avatar"
@@ -532,7 +532,7 @@ function Sidebar() {
           },
         ].map((p) => (
           <div key={p.name} className="people-item">
-            <img
+            <Image
               src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${p.seed}&backgroundColor=${p.bg}`}
               alt={p.name}
               className="people-avatar"
@@ -672,7 +672,7 @@ export default function HomePage() {
             ))}
             <div className="nav-divider" />
             <button className="nav-item">
-              <img
+              <Image
                 src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
                 alt="Me"
                 style={{ width: 24, height: 24, borderRadius: "50%" }}
@@ -692,7 +692,7 @@ export default function HomePage() {
           <section className="feed">
             {/* Post composer */}
             <div className="post-composer">
-              <img
+              <Image
                 src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
                 alt="You"
                 className="composer-avatar"

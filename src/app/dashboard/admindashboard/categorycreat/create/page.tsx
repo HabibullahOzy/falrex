@@ -6,6 +6,7 @@ import {
   ChevronRight, Check, AlertTriangle, Loader2,
   Lightbulb, Edit3, GripVertical, Tag,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -281,7 +282,7 @@ export default function CreateCategoryPage() {
             <label className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-purple-400 transition overflow-hidden bg-gray-50" style={{ minHeight: 140 }}>
               {preview ? (
                 <>
-                  <img src={preview} alt="preview"
+                  <Image width={10} height={10} src={preview} alt="preview"
                     className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition">
                     <div className="text-white text-center">

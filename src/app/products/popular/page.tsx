@@ -695,7 +695,6 @@ export default function PopularProducts() {
     <>
       {/* Global styles */}
       <style>{`
-        // @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes shimmer{0%,100%{opacity:1}50%{opacity:.45}}

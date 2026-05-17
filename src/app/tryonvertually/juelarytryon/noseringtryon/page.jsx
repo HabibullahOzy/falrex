@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import img from "../../../assets/nosring.png";
+import Image from "next/image";
 
 export default function JewalTryOnPage() {
   const videoRef = useRef(null);
@@ -171,7 +172,7 @@ export default function JewalTryOnPage() {
               />
 
               {mediapipeAvailable && (
-                <img
+                <Image
                   ref={overlayRef}
                   src={img.src}
                   alt="overlay"

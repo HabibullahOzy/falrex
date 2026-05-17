@@ -7,6 +7,7 @@ import {
   Package, Truck, Factory, FlaskConical,
   Tag, Image as ImageIcon, FileText,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -625,7 +626,7 @@ export default function CreateProduct() {
                 {selCat && (
                   <div className="flex items-center gap-3 flex-wrap p-3 bg-gray-50 rounded-xl border border-gray-100">
                     {selCat.image?.url && (
-                      <img src={selCat.image.url} alt={selCat.name}
+                      <Image width={10} height={10} src={selCat.image.url} alt={selCat.name}
                         className="w-10 h-10 rounded-lg object-cover border border-gray-200 flex-shrink-0" />
                     )}
                     <div className="flex items-center gap-2 flex-wrap flex-1">
@@ -970,7 +971,7 @@ export default function CreateProduct() {
                 <div className="flex flex-wrap gap-3 mt-3">
                   {images.map((img, idx) => (
                     <div key={idx} className="relative w-20 h-20 md:w-24 md:h-24 group">
-                      <img src={URL.createObjectURL(img)} alt="Preview"
+                      <Image width={10} height={10} src={URL.createObjectURL(img)} alt="Preview"
                         className="w-full h-full object-cover rounded-xl border border-gray-200" />
                       <button type="button" onClick={() => setImages((p) => p.filter((_, i) => i !== idx))}
                         className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition">

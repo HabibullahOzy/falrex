@@ -67,9 +67,9 @@ function formatDate(dateStr?: string): string {
 }
 
 function getStockStatus(stock?: number) {
-  if (!stock || stock === 0)  return { label: "Out of Stock", color: "bg-red-100 text-red-600" };
-  if (stock < 10)             return { label: "Low Stock",    color: "bg-amber-100 text-amber-600" };
-  return                             { label: "In Stock",     color: "bg-green-100 text-green-700" };
+  if (!stock || stock === 0) return { label: "Out of Stock", color: "bg-red-100 text-red-600" };
+  if (stock < 10) return { label: "Low Stock", color: "bg-amber-100 text-amber-600" };
+  return { label: "In Stock", color: "bg-green-100 text-green-700" };
 }
 
 // ── Stat Card ──────────────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ function ReportModal({ product, onClose }: { product: MongoProduct; onClose: () 
           <div className="flex gap-4">
             {product.images?.[0]?.url ? (
               <div className="w-20 h-20 rounded-xl overflow-hidden border border-gray-100 flex-shrink-0">
-                <img src={product.images[0].url} alt={product.nameEng}
+                <Image src={product.images[0].url} alt={product.nameEng}
                   className="w-full h-full object-cover" />
               </div>
             ) : (
@@ -179,7 +179,7 @@ function ReportModal({ product, onClose }: { product: MongoProduct; onClose: () 
                 {product.nameEng}
               </h2>
               {product.brand && <p className="text-xs text-gray-500 mt-1">Brand: <b>{product.brand}</b></p>}
-              {product.sku   && <p className="text-xs text-gray-400 mt-0.5">SKU: {product.sku}</p>}
+              {product.sku && <p className="text-xs text-gray-400 mt-0.5">SKU: {product.sku}</p>}
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {product.category && (
                   <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">
@@ -203,10 +203,10 @@ function ReportModal({ product, onClose }: { product: MongoProduct; onClose: () 
           {/* Metrics grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: "Price",     value: product.price ? `${sym} ${product.price.toLocaleString()}` : "—", color: "bg-blue-50 text-blue-700" },
-              { label: "After Disc",value: discounted ? `${sym} ${discounted.toLocaleString()}` : "—",       color: "bg-green-50 text-green-700" },
-              { label: "Discount",  value: product.discount ? `${product.discount}%` : "None",               color: "bg-red-50 text-red-600" },
-              { label: "Stock",     value: product.stock ?? "—",                                              color: "bg-amber-50 text-amber-700" },
+              { label: "Price", value: product.price ? `${sym} ${product.price.toLocaleString()}` : "—", color: "bg-blue-50 text-blue-700" },
+              { label: "After Disc", value: discounted ? `${sym} ${discounted.toLocaleString()}` : "—", color: "bg-green-50 text-green-700" },
+              { label: "Discount", value: product.discount ? `${product.discount}%` : "None", color: "bg-red-50 text-red-600" },
+              { label: "Stock", value: product.stock ?? "—", color: "bg-amber-50 text-amber-700" },
             ].map(({ label, value, color }) => (
               <div key={label} className={`rounded-xl p-3 text-center ${color}`}>
                 <p className="text-[10px] font-semibold uppercase tracking-wide opacity-70">{label}</p>
@@ -220,19 +220,19 @@ function ReportModal({ product, onClose }: { product: MongoProduct; onClose: () 
             <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Product Details</h4>
             <div className="rounded-xl border border-gray-100 overflow-hidden">
               {[
-                ["MOQ",             product.moq || "—"],
-                ["Currency",        product.currency || "—"],
-                ["Sample",          product.sampleAvailable || "—"],
-                ["Supplier",        product.supplierName || "—"],
-                ["Country",         product.countryOfOrigin || "—"],
-                ["Incoterms",       product.incoterms || "—"],
-                ["Shipping",        product.shippingMethod || "—"],
-                ["Images",          `${product.images?.length ?? 0} uploaded`],
-                ["Variations",      `${product.variations?.length ?? 0} variants`],
-                ["Spec Fields",     `${totalSpecFields} filled`],
-                ["Tags",            product.tags?.join(", ") || "—"],
-                ["Created",         formatDate(product.createdAt)],
-                ["Last Updated",    formatDate(product.updatedAt)],
+                ["MOQ", product.moq || "—"],
+                ["Currency", product.currency || "—"],
+                ["Sample", product.sampleAvailable || "—"],
+                ["Supplier", product.supplierName || "—"],
+                ["Country", product.countryOfOrigin || "—"],
+                ["Incoterms", product.incoterms || "—"],
+                ["Shipping", product.shippingMethod || "—"],
+                ["Images", `${product.images?.length ?? 0} uploaded`],
+                ["Variations", `${product.variations?.length ?? 0} variants`],
+                ["Spec Fields", `${totalSpecFields} filled`],
+                ["Tags", product.tags?.join(", ") || "—"],
+                ["Created", formatDate(product.createdAt)],
+                ["Last Updated", formatDate(product.updatedAt)],
               ].map(([key, val], i) => (
                 <div key={key}
                   className={`flex items-center justify-between px-4 py-2.5 text-sm ${i % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
@@ -277,11 +277,11 @@ function ReportModal({ product, onClose }: { product: MongoProduct; onClose: () 
               </h4>
               <div className="flex flex-wrap gap-2">
                 {product.images.map((img, i) => (
-                  <a key={i} href={img.url} target="_blank" rel="noreferrer">
+                  <Link key={i} href={img.url} target="_blank" rel="noreferrer">
                     <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 hover:border-purple-400 transition">
-                      <img src={img.url} alt={`img-${i}`} className="w-full h-full object-cover" />
+                      <Image src={img.url} alt={`img-${i}`} className="w-full h-full object-cover" />
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -338,7 +338,7 @@ function ExpandedRow({ product }: { product: MongoProduct }) {
                 {product.variations.slice(0, 4).map((v, i) => (
                   <div key={i} className="flex gap-2 flex-wrap">
                     {v.color && <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-full">{v.color}</span>}
-                    {v.size  && <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-full">{v.size}</span>}
+                    {v.size && <span className="bg-white border border-gray-200 px-2 py-0.5 rounded-full">{v.size}</span>}
                     {v.stock && <span className="bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">Stock: {v.stock}</span>}
                   </div>
                 ))}
@@ -351,10 +351,10 @@ function ExpandedRow({ product }: { product: MongoProduct }) {
             <div className="flex flex-wrap gap-1">
               {product.tags && product.tags.length > 0
                 ? product.tags.map((t, i) => (
-                    <span key={i} className="bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full text-[10px] font-semibold">
-                      #{t}
-                    </span>
-                  ))
+                  <span key={i} className="bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full text-[10px] font-semibold">
+                    #{t}
+                  </span>
+                ))
                 : <p className="text-gray-400">No tags</p>
               }
             </div>
@@ -374,8 +374,7 @@ function ExpandedRow({ product }: { product: MongoProduct }) {
 function Toast({ message, type, onClose }: { message: string; type: "success" | "error"; onClose: () => void }) {
   useEffect(() => { const t = setTimeout(onClose, 3500); return () => clearTimeout(t); }, [onClose]);
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-sm font-semibold text-white transition-all ${
-      type === "success" ? "bg-green-600" : "bg-red-600"}`}>
+    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-sm font-semibold text-white transition-all ${type === "success" ? "bg-green-600" : "bg-red-600"}`}>
       {type === "success" ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
       {message}
       <button onClick={onClose} className="ml-2 opacity-70 hover:opacity-100"><X className="w-3.5 h-3.5" /></button>
@@ -385,30 +384,30 @@ function Toast({ message, type, onClose }: { message: string; type: "success" | 
 
 // ── MAIN ADMIN PAGE ────────────────────────────────────────────────────────
 export default function AdminProducts() {
-  const [products,       setProducts]       = useState<MongoProduct[]>([]);
-  const [loading,        setLoading]        = useState(true);
-  const [error,          setError]          = useState<string | null>(null);
+  const [products, setProducts] = useState<MongoProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Pagination
-  const [page,           setPage]           = useState(1);
-  const [total,          setTotal]          = useState(0);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const limit = 10;
 
   // Search & filter
-  const [search,         setSearch]         = useState("");
-  const [searchInput,    setSearchInput]    = useState("");
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
-  const [sortBy,         setSortBy]         = useState("createdAt");
-  const [sortDir,        setSortDir]        = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
   // UI state
-  const [expandedRow,    setExpandedRow]    = useState<string | null>(null);
-  const [deleteTarget,   setDeleteTarget]   = useState<MongoProduct | null>(null);
-  const [deleteLoading,  setDeleteLoading]  = useState(false);
-  const [reportTarget,   setReportTarget]   = useState<MongoProduct | null>(null);
-  const [selectedIds,    setSelectedIds]    = useState<Set<string>>(new Set());
-  const [toast,          setToast]          = useState<{ message: string; type: "success" | "error" } | null>(null);
-  const [stats,          setStats]          = useState<Stats>({ total: 0, totalValue: 0, lowStock: 0, categories: 0 });
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<MongoProduct | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [reportTarget, setReportTarget] = useState<MongoProduct | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [stats, setStats] = useState<Stats>({ total: 0, totalValue: 0, lowStock: 0, categories: 0 });
 
   // ── Fetch ────────────────────────────────────────────────────────────────
   const fetchProducts = useCallback(async () => {
@@ -417,13 +416,13 @@ export default function AdminProducts() {
       setError(null);
 
       const params = new URLSearchParams({
-        page:  String(page),
+        page: String(page),
         limit: String(limit),
-        ...(search         && { search }),
+        ...(search && { search }),
         ...(filterCategory && { category: filterCategory }),
       });
 
-      const res  = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product?${params}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product?${params}`);
       if (!res.ok) throw new Error(`Server error ${res.status}`);
       const json = await res.json();
       if (!json.success) throw new Error(json.message);
@@ -433,9 +432,9 @@ export default function AdminProducts() {
       setTotal(json.total ?? data.length);
 
       // Compute stats
-      const cats      = new Set(data.map((p) => p.category).filter(Boolean));
-      const totalVal  = data.reduce((acc, p) => acc + (p.price ?? 0) * (p.stock ?? 0), 0);
-      const lowStock  = data.filter((p) => (p.stock ?? 0) < 10).length;
+      const cats = new Set(data.map((p) => p.category).filter(Boolean));
+      const totalVal = data.reduce((acc, p) => acc + (p.price ?? 0) * (p.stock ?? 0), 0);
+      const lowStock = data.filter((p) => (p.stock ?? 0) < 10).length;
       setStats({ total: json.total ?? data.length, totalValue: totalVal, lowStock, categories: cats.size });
 
     } catch (err: any) {
@@ -518,7 +517,7 @@ export default function AdminProducts() {
 
   const SortIcon = ({ col }: { col: string }) => (
     <span className="ml-1 inline-flex flex-col">
-      <ChevronUp   className={`w-3 h-3 -mb-1 ${sortBy === col && sortDir === "asc"  ? "text-purple-600" : "text-gray-300"}`} />
+      <ChevronUp className={`w-3 h-3 -mb-1 ${sortBy === col && sortDir === "asc" ? "text-purple-600" : "text-gray-300"}`} />
       <ChevronDown className={`w-3 h-3 ${sortBy === col && sortDir === "desc" ? "text-purple-600" : "text-gray-300"}`} />
     </span>
   );
@@ -535,8 +534,8 @@ export default function AdminProducts() {
     ]);
     const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
     a.href = url; a.download = "products.csv"; a.click();
     URL.revokeObjectURL(url);
   };
@@ -560,7 +559,7 @@ export default function AdminProducts() {
             className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white text-sm font-semibold hover:bg-gray-50 transition">
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} /> Refresh
           </button>
-          <Link href="/admin/products/create"
+          <Link href="/dashboard/admindashboard/creatproduct"
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#7149f5] text-white text-sm font-semibold hover:bg-[#5f3dd4] transition">
             <Package className="w-4 h-4" /> Add Product
           </Link>
@@ -569,10 +568,10 @@ export default function AdminProducts() {
 
       {/* ── Stats ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard icon={<Package    className="w-5 h-5 text-blue-600"   />} label="Total Products"  value={stats.total}                                color="bg-blue-50"   />
-        <StatCard icon={<DollarSign className="w-5 h-5 text-green-600"  />} label="Inventory Value" value={`৳ ${stats.totalValue.toLocaleString()}`}   color="bg-green-50"  sub="estimated" />
-        <StatCard icon={<TrendingUp className="w-5 h-5 text-amber-600"  />} label="Low Stock"       value={stats.lowStock}                             color="bg-amber-50"  sub="< 10 units" />
-        <StatCard icon={<Layers     className="w-5 h-5 text-purple-600" />} label="Categories"      value={stats.categories}                           color="bg-purple-50" sub="this page" />
+        <StatCard icon={<Package className="w-5 h-5 text-blue-600" />} label="Total Products" value={stats.total} color="bg-blue-50" />
+        <StatCard icon={<DollarSign className="w-5 h-5 text-green-600" />} label="Inventory Value" value={`৳ ${stats.totalValue.toLocaleString()}`} color="bg-green-50" sub="estimated" />
+        <StatCard icon={<TrendingUp className="w-5 h-5 text-amber-600" />} label="Low Stock" value={stats.lowStock} color="bg-amber-50" sub="< 10 units" />
+        <StatCard icon={<Layers className="w-5 h-5 text-purple-600" />} label="Categories" value={stats.categories} color="bg-purple-50" sub="this page" />
       </div>
 
       {/* ── Filters ── */}
@@ -696,8 +695,8 @@ export default function AdminProducts() {
                 </tr>
               ) : (
                 sortedProducts.map((product) => {
-                  const sym      = getCurrencySymbol(product.currency);
-                  const stock    = getStockStatus(product.stock);
+                  const sym = getCurrencySymbol(product.currency);
+                  const stock = getStockStatus(product.stock);
                   const isExpanded = expandedRow === product._id;
                   const isSelected = selectedIds.has(product._id);
                   const discounted = product.price && product.discount
@@ -720,7 +719,7 @@ export default function AdminProducts() {
                         <td className="px-4 py-3">
                           <div className="w-12 h-12 rounded-xl overflow-hidden border border-gray-100 bg-gray-50 flex-shrink-0">
                             {product.images?.[0]?.url ? (
-                              <img src={product.images[0].url} alt={product.nameEng}
+                              <Image width={10} height={10} src={product.images[0].url} alt={product.nameEng}
                                 className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
@@ -809,7 +808,7 @@ export default function AdminProducts() {
                               className="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center transition">
                               <Pencil className="w-3.5 h-3.5" />
                             </Link>
-{/* <UpdateProduct
+                            {/* <UpdateProduct
   productId="64abc..."
   onSuccess={(product) => console.log("Updated:", product)}
   onCancel={() => Router.back()}
@@ -860,11 +859,10 @@ export default function AdminProducts() {
                 if (pg === 1 || pg === totalPages || (pg >= page - 1 && pg <= page + 1)) {
                   return (
                     <button key={pg} onClick={() => setPage(pg)}
-                      className={`w-8 h-8 rounded-lg text-xs font-semibold transition ${
-                        pg === page
+                      className={`w-8 h-8 rounded-lg text-xs font-semibold transition ${pg === page
                           ? "bg-[#7149f5] text-white shadow-sm"
                           : "border border-gray-200 hover:bg-gray-50"
-                      }`}>
+                        }`}>
                       {pg}
                     </button>
                   );

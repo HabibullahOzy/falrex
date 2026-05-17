@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import { Search, X, ChevronLeft, ChevronRight, Package, Tag } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -81,16 +82,16 @@ function CategoryCard({ category }: { category: Category }) {
         }}
       >
         {hasImage ? (
-          <img
-            src={category.image.url}
+          <Image
+          width={10}
+          height={10}
+            src={category?.image?.url}
             alt={category.name}
-            className="w-full h-full object-cover
-                       group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-3xl
-                          group-hover:scale-110 transition-transform duration-300">
+          <div className="w-full h-full flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
             {emoji}
           </div>
         )}

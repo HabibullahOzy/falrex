@@ -9,6 +9,7 @@ import {
   ChevronLeft, Grid3x3, List,
   Check, Zap, MapPin, Tag,
 } from "lucide-react";
+import Image from "next/image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -83,7 +84,7 @@ function ProductCard({ product }: { product: Product }) {
       className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden flex flex-col">
       <div className="relative h-40 sm:h-48 bg-gray-50 overflow-hidden">
         {img ? (
-          <img src={img} alt={product.nameEng}
+          <Image width={10} height={10} src={img} alt={product.nameEng}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy" />
         ) : (
@@ -170,7 +171,7 @@ function ProductRow({ product }: { product: Product }) {
       className="group flex gap-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition p-3 sm:p-4">
       <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0">
         {img
-          ? <img src={img} alt={product.nameEng} className="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" />
+          ? <Image src={img} alt={product.nameEng} className="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" />
           : <div className="w-full h-full flex items-center justify-center"><Package className="w-6 h-6 text-gray-200" /></div>
         }
       </div>
@@ -551,7 +552,9 @@ export default function CategoryProductsClient({ category }: { category: Categor
                 filter:             "blur(20px) brightness(0.4)",
               }}
             />
-            <img
+            <Image
+            width={10}
+            height={10}
               src={category.image.url}
               alt={category.name}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${bannerLoaded ? "opacity-100" : "opacity-0"}`}

@@ -1603,7 +1603,7 @@ function MediaPreview({
     return <video src={media.url} className={className} controls />;
   }
 
-  return <img src={media.url} alt="Media" className={className} />;
+  return <Image src={media.url} alt="Media" className={className} />;
 }
 
 function ReactionPicker({
@@ -1772,7 +1772,7 @@ function PostCard({
   return (
     <article className={styles.postCard}>
       <div className={styles.postHeader}>
-        <img src={post.avatar} alt={post.author} className={styles.postAvatar} />
+        <Image src={post.avatar} alt={post.author} className={styles.postAvatar} />
 
         <div className={styles.postMeta}>
           <div className={styles.postAuthor}>{post.author}</div>
@@ -1888,7 +1888,7 @@ function PostCard({
       {post.showComments && (
         <div className={styles.commentsSection}>
           <div className={styles.commentInputRow}>
-            <img
+            <Image
               src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
               alt="You"
               className={styles.commentAvatar}
@@ -1945,7 +1945,7 @@ function PostCard({
           <div className={styles.commentList}>
             {post.comments.map((comment) => (
               <div key={comment.id} className={styles.commentItem}>
-                <img
+                <Image
                   src={comment.avatar}
                   alt={comment.author}
                   className={styles.commentAvatar}
@@ -2050,7 +2050,7 @@ function PostComposerModal({
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <div className={styles.modalUser}>
-            <img
+            <Image
               src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
               alt="You"
               className={styles.modalAvatar}
@@ -2151,7 +2151,7 @@ function Sidebar() {
       <div className={styles.sidebarCard}>
         <div className={styles.profileBanner} />
 
-        <img
+        <Image
           src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
           alt="Profile"
           className={styles.profileAvatar}
@@ -2197,7 +2197,7 @@ function Sidebar() {
 
         {people.map((person) => (
           <div key={person.name} className={styles.peopleItem}>
-            <img
+            <Image
               src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}&backgroundColor=${person.bg}`}
               alt={person.name}
               className={styles.peopleAvatar}
@@ -2364,7 +2364,7 @@ export default function HomePage() {
             ))}
 
             <button type="button" className={styles.navMe}>
-              <img
+              <Image
                 src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
                 alt="Me"
                 className={styles.navMeAvatar}
@@ -2382,7 +2382,7 @@ export default function HomePage() {
           <section className={styles.feed}>
             <div className={styles.composer}>
               <div className={styles.composerRow}>
-                <img
+                <Image
                   src="https://api.dicebear.com/7.x/avataaars/svg?seed=you&backgroundColor=b6e3f4"
                   alt="You"
                   className={styles.composerAvatar}

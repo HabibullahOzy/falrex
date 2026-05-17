@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1223,7 +1224,7 @@ export default function VirtualTryon({ product }: TryonProps) {
         {/* Product strip */}
         {product.images?.length ? (
           <div className="tr-product-strip">
-            <img className="tr-product-thumb" src={product.images[0].url} alt={product.nameEng} />
+            <Image width={10} height={10} className="tr-product-thumb" src={product.images[0].url} alt={product.nameEng} />
             <div className="tr-product-info">
               <div className="tr-product-name">{product.nameEng}</div>
               <div className="tr-product-meta">
@@ -1367,7 +1368,7 @@ export default function VirtualTryon({ product }: TryonProps) {
                   >
                     {selected?.id === item.id && <span className="tr-sel-dot" />}
                     {item.id === product._id && <span className="tr-origin-badge">Current</span>}
-                    <img src={item.src} alt={item.label} />
+                    <Image width={10} height={10} src={item.src} alt={item.label} />
                     <span className="tr-item-label">{item.label}</span>
                     {(item.subcategory || item.subSubcategory) && (
                       <span className="tr-item-sub">

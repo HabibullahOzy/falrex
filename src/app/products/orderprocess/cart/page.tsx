@@ -3,6 +3,7 @@ import { useCart } from "../../../context/CartContext";
 import Link from "next/link";
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, ShoppingCart } from "lucide-react";
 import { useEffect } from "react";
+import Image from "next/image";
 
 function getCurrencySymbol(currency?: string) {
   if (!currency) return "৳";
@@ -85,7 +86,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 {/* Image */}
                 <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                   {item.image ? (
-                    <img src={item.image} alt={item.nameEng} className="w-full h-full object-cover" />
+                    <Image width={10} height={10} src={item.image} alt={item.nameEng} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <ShoppingBag className="w-6 h-6 text-gray-300" />

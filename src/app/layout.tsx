@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../app/globals.css";
-import Navebar2 from "./component/naveber2";
-import Navebar from "./component/navebar";
+import Navebar2 from "./component/navbar/naveber2";
+import Navebar from "./component/navbar/navebar";
 import Footer from "./component/footer/page";
 import Marquee from "react-fast-marquee";
 import FirebaseAnalytics from "./FirebaseAnalytics";
 import { CartProvider } from "./context/CartContext";
 import ChatProviderWrapper from "./component/socialCommunication/ChatProviderWrapper";
 import { AuthProvider } from "./context/AuthContext";
+import { CompareProvider } from "./context/CompareContext";
 // import { Construction } from "lucide-react";
 
 const geistSans = Geist({
@@ -53,11 +54,13 @@ export default function RootLayout({
           <FirebaseAnalytics></FirebaseAnalytics>
           <AuthProvider>
             <CartProvider>
+              <CompareProvider>  
               <ChatProviderWrapper>
                 <Navebar2 />
                 <Navebar />
                 {children}
               </ChatProviderWrapper>
+              </CompareProvider>  
             </CartProvider>
           </AuthProvider>
           <Footer />

@@ -53,9 +53,9 @@ export default function DashboardNav({ isOpen, onToggle, handleRate }: Props) {
       >
         {/* Brand */}
         <div className={styles.brand}>
-          <span className={styles.brandMark}>OA</span>
+          <span className={styles.brandMark}>PS</span>
           <div className={styles.brandText}>
-            <strong>OrderDesk</strong>
+            <strong>PositiveDesk</strong>
             <small>Operations</small>
           </div>
         </div>

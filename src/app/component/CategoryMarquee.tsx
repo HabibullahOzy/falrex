@@ -56,7 +56,7 @@ function getColor(name: string) {
 function CategoryCard({ category }: { category: Category }) {
   const color = getColor(category.name);
   const emoji = CATEGORY_EMOJI[category.name] || "📦";
-  // console.log(category.name)
+  console.log(category.name)
   const hasImage = !!category.image?.url;
   // const slug = category?.slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
 

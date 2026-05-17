@@ -20,6 +20,7 @@ async function getCategory(slug: string) {
     );
     const json = await res.json();
     return json.success ? json.data : null;
+    // console.log(json)
   } catch {
     return null;
   }
@@ -36,6 +37,8 @@ export default async function CategoryPage({
 
   const category = await getCategory(slug);
   if (!category) notFound();
+
+  // console.log(category)
 
   return <CategoryProductsClient category={category} />;
 }

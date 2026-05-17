@@ -257,6 +257,8 @@ export default function CategoryProductsClient({ category }: { category: Categor
   const searchParams = useSearchParams();
   const router       = useRouter();
 
+  console.log(category)
+
   // ── FIX: Initialize state from URL search params ───────────────────────
   const [selectedSub,    setSelectedSub]    = useState(searchParams.get("sub")    ?? "");
   const [selectedSubSub, setSelectedSubSub] = useState(searchParams.get("subsub") ?? "");

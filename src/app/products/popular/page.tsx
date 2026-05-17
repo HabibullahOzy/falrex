@@ -715,8 +715,8 @@ export default function PopularProducts() {
         @media(min-width:1280px){.pop-grid{grid-template-columns:repeat(6,1fr)!important}}
       `}</style>
 
-      <section className="pop-font w-full py-12 px-4 sm:px-6 lg:px-8" style={{ background: "#fafaf9" }}>
-        <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
+      <section className="pop-font w-full py-12 px-4 ">
+        <div >
 
           {/* ── Header ── */}
           <div className="mb-8 text-center">

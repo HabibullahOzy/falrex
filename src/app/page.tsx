@@ -156,7 +156,7 @@ export default function Home() {
 
 
 
-function TimeBox({ value }) {
+function TimeBox({ value }: { value: number }) {
   return (
     <div className="w-14 h-14 rounded-xl bg-gray-100 flex items-center justify-center font-bold text-lg">
       {String(value).padStart(2, "0")}

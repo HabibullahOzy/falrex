@@ -4,14 +4,18 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   // output: "export",
+  
 
 images: {
    unoptimized: true
   },
 
    eslint: {
-    ignoreDuringBuilds: true,  // ← this is the correct key
+    ignoreDuringBuilds: true,
   },
+
+  // output: 'standalone'
+
 };
 
 export default nextConfig;

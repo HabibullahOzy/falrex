@@ -5,75 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactPlayer from "react-player";
 import { useSwipeable } from "react-swipeable";
 import { usePinch } from "@use-gesture/react";
-import Link from "next/link";
 import RelatedProducts from "../relatedProducts/page";
 import CartButtons from "../CartButtons";
 import ProductReviews from "@/app/component/reviewcomp/ProductReviews";
 import ChatButton from "@/app/component/socialCommunication/ChatButton";
 import Image from "next/image";
-import Neclesstryon from "@/app/tryonvertually/juelarytryon/neclesstryon/page";
+import { Product } from "../../../types/product";
 import TryOnButton from "@/app/tryonvertually/Tryonbutton";
-
-interface ProductImage {
-  url: string;
-  public_id: string;
-  _id: string;
-}
-
-interface ProductVideo {
-  url: string;
-  public_id: string;
-}
-
-interface Variation {
-  color: string;
-  size: string;
-  sku: string;
-  stock: string;
-  _id: string;
-}
-
-interface MongoProduct {
-  _id: string;
-  nameEng: string;
-  nameLocal?: string;
-  brand?: string;
-  modelNumber?: string;
-  sku?: string;
-  slug?: string;
-  category?: string;
-  subcategory?: string;
-  subSubcategory?: string;
-  hsCode?: string;
-  price?: number;
-  currency?: string;
-  discount?: number;
-  moq?: string;
-  stock?: number;
-  sampleAvailable?: string;
-  supplierName?: string;
-  countryOfOrigin?: string;
-  supplierYears?: string;
-  certifications?: string;
-  factoryLocation?: string;
-  productionCapacity?: string;
-  incoterms?: string;
-  shippingMethod?: string;
-  leadTime?: string;
-  portOfLoading?: string;
-  shippingNotes?: string;
-  specifications?: Record<string, Record<string, string>>;
-  packagingDetails?: string;
-  sellingUnit?: string;
-  grossWeight?: string;
-  cartonSize?: string;
-  variations?: Variation[];
-  tags?: string[];
-  shortDescription?: string;
-  description?: string;
-  images?: ProductImage[];
-  video?: ProductVideo | null;
-}
+import CompareButton from "@/app/component/compareProducts/CompareButton";
 
 interface SpecField {
   key: string;
@@ -152,7 +91,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Jewellery & Accessories": {
     material: {
       label: "Material & Metal",
@@ -204,7 +142,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Fashion & Apparel": {
     fabric: {
       label: "Fabric & Material",
@@ -241,7 +178,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Beauty & Personal Care": {
     formula: {
       label: "Formula & Ingredients",
@@ -277,7 +213,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Health & Medical": {
     technical: {
       label: "Technical Specs",
@@ -311,7 +246,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Home & Kitchen": {
     build: {
       label: "Build & Material",
@@ -346,7 +280,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Sports & Outdoors": {
     performance: {
       label: "Performance",
@@ -369,7 +302,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   Automotive: {
     technical: {
       label: "Technical Specs",
@@ -392,7 +324,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Industrial & Machinery": {
     technical: {
       label: "Technical Specs",
@@ -426,7 +357,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Food & Beverage": {
     nutrition: {
       label: "Nutrition & Ingredients",
@@ -462,7 +392,6 @@ const SPEC_SCHEMAS: Record<string, Record<string, SpecGroup>> = {
       ],
     },
   },
-
   "Toys & Hobbies": {
     details: {
       label: "Product Details",
@@ -561,10 +490,12 @@ function SpecTable({
     }));
 
   const rows = [...knownRows, ...extraRows];
-
   if (!rows.length) return null;
 
-  const pairedRows: [{ label: string; value: string }, { label: string; value: string } | null][] = [];
+  const pairedRows: [
+    { label: string; value: string },
+    { label: string; value: string } | null
+  ][] = [];
 
   for (let index = 0; index < rows.length; index += 2) {
     pairedRows.push([rows[index], rows[index + 1] ?? null]);
@@ -578,11 +509,13 @@ function SpecTable({
           {group.label}
         </span>
       </div>
-
       <table className="w-full text-sm">
         <tbody>
           {pairedRows.map(([left, right], index) => (
-            <tr key={`${left.label}-${index}`} className={index % 2 ? "bg-slate-50" : "bg-white"}>
+            <tr
+              key={`${left.label}-${index}`}
+              className={index % 2 ? "bg-slate-50" : "bg-white"}
+            >
               <td className="w-[22%] border-b border-r border-slate-200 px-4 py-3 text-slate-500">
                 {left.label}
               </td>
@@ -603,7 +536,7 @@ function SpecTable({
   );
 }
 
-function SmartSpecSection({ product }: { product: MongoProduct }) {
+function SmartSpecSection({ product }: { product: Product }) {
   const category = product.category ?? "";
   const specs = product.specifications ?? {};
   const schema = SPEC_SCHEMAS[category] ?? FALLBACK_SCHEMA;
@@ -615,7 +548,6 @@ function SmartSpecSection({ product }: { product: MongoProduct }) {
   const renderedGroups = groupKeys
     .map((groupKey) => {
       const groupData = specs[groupKey];
-
       if (!groupData || Object.keys(groupData).length === 0) return null;
 
       const group: SpecGroup = schema[groupKey] ?? {
@@ -639,7 +571,17 @@ function SmartSpecSection({ product }: { product: MongoProduct }) {
   return <div className="mt-6 flex flex-col gap-4">{renderedGroups}</div>;
 }
 
-export default function ProductDetails({ product }: { product: MongoProduct }) {
+export default function ProductDetails({ product }: { product: Product }) {
+
+  // Guard against undefined product during prerender
+  if (!product) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-slate-400">Product not found.</p>
+      </div>
+    );
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [scale, setScale] = useState(1);
@@ -679,8 +621,8 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
   );
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
-
+    const { left, top, width, height } =
+      event.currentTarget.getBoundingClientRect();
     setPosition({
       x: ((event.pageX - left) / width) * 100,
       y: ((event.pageY - top) / height) * 100,
@@ -710,15 +652,24 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
       ? Math.round(product.price * (1 - product.discount / 100))
       : null;
 
-  const categoryPath = [product.category, product.subcategory, product.subSubcategory]
+  const categoryPath = [
+    product.category,
+    product.subcategory,
+    product.subSubcategory,
+  ]
     .filter(Boolean)
     .join(" › ");
 
   return (
     <div className="min-h-screen px-4 py-3 text-black md:px-8 mt-5">
       <div className="mx-auto grid max-w-[96%] grid-cols-1 gap-2 lg:grid-cols-12">
+        {/* ── LEFT: Gallery ── */}
         <div className="h-fit lg:sticky lg:top-5 lg:col-span-6">
-          <div {...handlers} className="grid grid-cols-1 gap-5 sm:grid-cols-[64px_minmax(0,718px)]">
+          <div
+            {...handlers}
+            className="grid grid-cols-1 gap-5 sm:grid-cols-[64px_minmax(0,718px)]"
+          >
+            {/* Thumbnails */}
             <div className="flex flex-row items-center gap-4 sm:flex-col">
               {media.map((item, index) => (
                 <button
@@ -728,19 +679,28 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                     setScale(1);
                   }}
                   className={`flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg border bg-slate-50 transition ${currentIndex === index
-                    ? "border-black"
-                    : "border-transparent hover:border-slate-300"
+                      ? "border-black"
+                      : "border-transparent hover:border-slate-300"
                     }`}
                 >
                   {item.includes(".mp4") || item.includes("youtube") ? (
-                    <span className="px-1 text-center text-xs font-semibold">▶ Video</span>
+                    <span className="px-1 text-center text-xs font-semibold">
+                      ▶ Video
+                    </span>
                   ) : (
-                    <Image width={10} height={10} src={item} alt={`thumb-${index}`} className="h-full w-full object-cover" />
+                    <Image
+                      width={64}
+                      height={64}
+                      src={item}
+                      alt={`thumb-${index}`}
+                      className="h-full w-full object-cover"
+                    />
                   )}
                 </button>
               ))}
             </div>
 
+            {/* Main viewer */}
             <div
               className="group relative flex h-[360px] max-w-[718px] cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-[#f3f3f3] sm:h-[501px]"
               onMouseEnter={() => setZoom(true)}
@@ -757,7 +717,6 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
               >
                 &lt;
               </button>
-
               <button
                 className="absolute right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-2xl text-black shadow-sm"
                 onClick={goNext}
@@ -766,13 +725,20 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
               </button>
 
               {isVideo ? (
-                <ReactPlayer src={selectedMedia} controls width="100%" height="501px" />
+                <ReactPlayer
+                  src={selectedMedia}
+                  controls
+                  width="100%"
+                  height="501px"
+                />
               ) : (
                 <motion.img
                   src={selectedMedia}
                   alt={product.nameEng}
                   className="h-full w-full object-contain"
-                  style={{ transformOrigin: `${position.x}% ${position.y}%` }}
+                  style={{
+                    transformOrigin: `${position.x}% ${position.y}%`,
+                  }}
                   animate={{ scale: zoom ? 1.55 : 1 }}
                 />
               )}
@@ -780,8 +746,11 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           </div>
         </div>
 
+        {/* ── MIDDLE: Inquiry card ── */}
         <aside className="h-fit rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-5 lg:col-span-4">
-          {categoryPath && <p className="mb-2 text-xs text-slate-400">{categoryPath}</p>}
+          {categoryPath && (
+            <p className="mb-2 text-xs text-slate-400">{categoryPath}</p>
+          )}
 
           <span className="inline-flex rounded bg-orange-50 px-2 py-1 text-md font-semibold text-orange-600">
             {product.supplierName || "Supplier"}
@@ -796,12 +765,14 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           )}
 
           <p className="mt-4 text-sm text-slate-500">
-            MOQ: <b>{product.moq || "—"} {product.sellingUnit || "pieces"}</b>
+            MOQ:{" "}
+            <b>
+              {product.moq || "—"} {product.sellingUnit || "pieces"}
+            </b>
           </p>
 
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <p className="text-2xl font-bold">{displayPrice}</p>
-
             {discountedPrice && (
               <>
                 <p className="text-lg font-bold text-green-600">
@@ -819,7 +790,10 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           {product.tags && product.tags.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1">
               {product.tags.map((tag) => (
-                <span key={tag} className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                <span
+                  key={tag}
+                  className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600"
+                >
                   #{tag}
                 </span>
               ))}
@@ -831,10 +805,12 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           {product.variations && product.variations.length > 0 && (
             <>
               <h2 className="text-xl font-bold">Variations</h2>
-
               <div className="mt-4 space-y-2">
                 {product.variations.map((variation, index) => (
-                  <div key={variation._id || index} className="flex flex-wrap gap-2 text-sm">
+                  <div
+                    key={variation._id || index}
+                    className="flex flex-wrap gap-2 text-sm"
+                  >
                     {variation.color && (
                       <span className="rounded bg-slate-100 px-2 py-1">
                         <b>Color:</b> {variation.color}
@@ -853,16 +829,23 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                   </div>
                 ))}
               </div>
-
               <div className="mt-4 flex flex-wrap gap-3">
                 {imageUrls.map((url, index) => (
                   <button
                     key={url}
                     onClick={() => setCurrentIndex(index)}
-                    className={`h-14 w-14 overflow-hidden rounded-lg border bg-white p-1 ${currentIndex === index ? "border-2 border-black" : "border-slate-200"
+                    className={`h-14 w-14 overflow-hidden rounded-lg border bg-white p-1 ${currentIndex === index
+                        ? "border-2 border-black"
+                        : "border-slate-200"
                       }`}
                   >
-                    <Image width={10} height={10} src={url} alt={`variation-${index}`} className="h-full w-full object-cover" />
+                    <Image
+                      width={56}
+                      height={56}
+                      src={url}
+                      alt={`variation-${index}`}
+                      className="h-full w-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -872,88 +855,50 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           <div className="my-6 border-t border-slate-200" />
 
           <h3 className="text-lg font-bold">Shipping</h3>
-
           <p className="mt-3 text-sm leading-6">
             {product.shippingNotes || "Shipping details to be negotiated."}
           </p>
-
           {product.shippingMethod && (
             <p className="mt-1 text-xs text-slate-500">
               Method: <b>{product.shippingMethod}</b>
-              {product.incoterms && <> · <b>{product.incoterms}</b></>}
+              {product.incoterms && (
+                <>
+                  {" "}
+                  · <b>{product.incoterms}</b>
+                </>
+              )}
             </p>
           )}
 
           <div className="mt-6 flex gap-3 sm:flex-row">
-            {/* <button className="flex-1 rounded-full bg-[#7149f5] px-6 py-3 text-sm font-bold text-white hover:bg-[#8e6bff]">
-              Buy Now
-            </button> */}
-            {/* <button className="flex-1 rounded-full border border-black bg-white px-6 py-3 text-sm font-bold hover:bg-slate-50">
-              Add to Cart
-            </button> */}
-            <CartButtons
-              productId={product._id}
-              // variation={selectedVariation}   // optional — from variation state
-              quantity={1}
-            />
-            {/* <button className="flex-1 rounded-full bg-[#7149f5] px-6 py-3 text-sm font-bold text-white hover:bg-[#8e6bff]">
-              Chat Now
-            </button> */}
-
+            <CartButtons productId={product._id} quantity={1} />
             <ChatButton
               targetUid={product?.supplierUid || "seller-uid"}
               targetName={product.supplierName || "Seller"}
               targetRole="seller"
             />
+            <div className="">
+              <CompareButton product={product} variant="icon" />
+            </div>
           </div>
         </aside>
 
+        {/* ── RIGHT: Virtual Trial Room ── */}
         <div className="h-fit rounded-lg border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-5 lg:col-span-2">
           <div className="flex flex-col items-center text-center">
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#bae5f5] text-[#09b7f6]">
               <span className="text-2xl font-bold">VR</span>
             </div>
-
             <h3 className="text-lg font-bold">Virtual Trial Room</h3>
-
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Preview this product in a virtual fitting experience.
             </p>
-
-            {/* <Link
-              href={`/tryonvertually/juelarytryon/${product._id}`}
-              className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
-            >
-              Try Now
-            </Link> */}
             <TryOnButton product={product} mode="inline" />
-
-            {/* {
-              if(product.category=="Fashion & Apparel"){
-                if(product.subSubCategories == "Sunglasses"){
-<button onclick={}
-              href={`/tryonvertually/juelarytryon/${product._id}`}
-              className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
-            ><Neclesstryon prodductimage={product.images.[]}></Neclesstryon>
-              Try Now
-            </Link>
-                }
-            
-              }else if(product.category == "Jewellery & Accessories"){
-              <Link
-                href={`/tryonvertually/juelarytryon/${product._id}`}
-                className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#09b7f6] px-5 py-3 text-sm font-bold text-white hover:bg-[#a5e0f6]"
-              >
-                {product.category}Try Now
-              </Link>
-            }else if(){
-
-            }
-            } */}
           </div>
         </div>
       </div>
 
+      {/* ── TABS ── */}
       <section className="mx-auto mt-14 max-w-[1360px]">
         <div className="flex gap-8 border-b border-slate-200 text-base">
           {["Attributes", "Reviews", "Supplier", "Description"].map((tab) => (
@@ -972,47 +917,55 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           <>
             <div className="mt-6 flex items-center gap-2">
               <h2 className="text-xl font-bold">Key Attributes</h2>
-
               {product.category && (
                 <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
                   {product.category}
                 </span>
               )}
             </div>
-
             <SmartSpecSection product={product} />
-
             <h2 className="mt-8 text-lg font-bold">Packaging and Delivery</h2>
-
             <div className="mt-4 overflow-hidden rounded-lg border border-slate-200">
               <table className="w-full text-sm">
                 <tbody>
                   <tr className="bg-white">
-                    <td className="w-[22%] border-r border-slate-200 px-4 py-4 text-slate-500">Packaging</td>
+                    <td className="w-[22%] border-r border-slate-200 px-4 py-4 text-slate-500">
+                      Packaging
+                    </td>
                     <td className="w-[28%] border-r border-slate-200 px-4 py-4 font-semibold">
                       {product.packagingDetails || "—"}
                     </td>
-                    <td className="w-[22%] border-r border-slate-200 px-4 py-4 text-slate-500">Selling Unit</td>
-                    <td className="w-[28%] px-4 py-4 font-semibold">{product.sellingUnit || "—"}</td>
+                    <td className="w-[22%] border-r border-slate-200 px-4 py-4 text-slate-500">
+                      Selling Unit
+                    </td>
+                    <td className="w-[28%] px-4 py-4 font-semibold">
+                      {product.sellingUnit || "—"}
+                    </td>
                   </tr>
-
                   <tr className="bg-slate-50">
-                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">Gross Weight</td>
+                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">
+                      Gross Weight
+                    </td>
                     <td className="border-r border-t border-slate-200 px-4 py-4 font-semibold">
                       {product.grossWeight || "—"}
                     </td>
-                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">Carton Size</td>
+                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">
+                      Carton Size
+                    </td>
                     <td className="border-t border-slate-200 px-4 py-4 font-semibold">
                       {product.cartonSize || "—"}
                     </td>
                   </tr>
-
                   <tr className="bg-white">
-                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">Lead Time</td>
+                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">
+                      Lead Time
+                    </td>
                     <td className="border-r border-t border-slate-200 px-4 py-4 font-semibold">
                       {product.leadTime || "—"}
                     </td>
-                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">Port of Loading</td>
+                    <td className="border-r border-t border-slate-200 px-4 py-4 text-slate-500">
+                      Port of Loading
+                    </td>
                     <td className="border-t border-slate-200 px-4 py-4 font-semibold">
                       {product.portOfLoading || "—"}
                     </td>
@@ -1024,16 +977,6 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
         )}
 
         {activeTab === "Reviews" && (
-          // <div className="mt-9 border border-slate-200 p-6">
-          //   <div className="flex flex-wrap items-center gap-4">
-          //     <p className="text-4xl font-bold">4.8</p>
-          //     <div>
-          //       <h2 className="text-xl font-bold">Customer reviews</h2>
-          //       <p className="mt-1 text-sm text-slate-600">126 reviews from verified buyers</p>
-          //     </div>
-          //   </div>
-          // </div>
-
           <ProductReviews productId={product._id} />
         )}
 
@@ -1041,7 +984,10 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
           <div className="mt-9 grid gap-4 border border-slate-200 p-6 md:grid-cols-3">
             {[
               ["Company", product.supplierName],
-              ["Experience", product.supplierYears ? `${product.supplierYears} yrs` : "—"],
+              [
+                "Experience",
+                product.supplierYears ? `${product.supplierYears} yrs` : "—",
+              ],
               ["Location", product.countryOfOrigin],
               ["Factory", product.factoryLocation],
               ["Certs", product.certifications],
@@ -1058,27 +1004,25 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
         {activeTab === "Description" && (
           <div className="mt-9 border border-slate-200 p-6">
             <h2 className="text-xl font-bold">Product description</h2>
-
             {product.shortDescription && (
               <p className="mt-3 max-w-4xl rounded bg-slate-50 p-3 text-sm font-medium leading-6 text-slate-600">
                 {product.shortDescription}
               </p>
             )}
-
             <p className="mt-4 max-w-4xl text-sm leading-7 text-slate-700">
               {product.description || "No description."}
             </p>
           </div>
         )}
       </section>
-      {
-        product?.subSubcategory &&
+
+      {product?.subSubcategory && (
         <div className="mx-auto mt-10 max-w-[1360px]">
-          <RelatedProducts subSubcategory={product?.subSubcategory} />
+          <RelatedProducts subSubcategory={product.subSubcategory} />
         </div>
-      }
+      )}
 
-
+      {/* ── LIGHTBOX ── */}
       <AnimatePresence>
         {lightboxOpen && (
           <motion.div
@@ -1087,6 +1031,7 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
+            {/* Close */}
             <button
               className="absolute right-5 top-5 z-50 rounded-full bg-white/10 px-4 py-2 text-xl text-white hover:bg-white/20"
               onClick={() => {
@@ -1097,13 +1042,13 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
               ✕
             </button>
 
+            {/* Prev / Next */}
             <button
               className="absolute left-5 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-3xl text-white"
               onClick={goPrevious}
             >
               &lt;
             </button>
-
             <button
               className="absolute right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-3xl text-white"
               onClick={goNext}
@@ -1111,32 +1056,46 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
               &gt;
             </button>
 
-            <div className="flex max-h-full max-w-full flex-col items-center" {...handlers}>
+            {/* Media */}
+            <div
+              className="flex max-h-full max-w-full flex-col items-center"
+              {...handlers}
+            >
               {isVideo ? (
-                <ReactPlayer src={selectedMedia} controls width="80vw" height="70vh" />
+                <ReactPlayer
+                  src={selectedMedia}
+                  controls
+                  width="80vw"
+                  height="70vh"
+                />
               ) : (
-                <motion.div
-                  {...bindPinch()}
-                  onMouseEnter={() => setZoom(true)}
-                  onMouseLeave={() => {
-                    setZoom(false);
-                    setPosition({ x: 50, y: 50 });
-                  }}
-                  onMouseMove={handleMouseMove}
-                  drag={scale > 1 ? "x" : false}
-                  dragConstraints={{ left: -500, right: 500 }}
-                >
-                  <motion.img
-                    src={selectedMedia}
-                    alt="Product"
-                    className="max-h-[80vh] max-w-full rounded-md object-contain"
-                    style={{ transformOrigin: `${position.x}% ${position.y}%` }}
-                    animate={{ scale: zoom ? scale : 1 }}
-                  />
-                </motion.div>
+                // Plain div receives pinch gesture; motion.div handles drag + zoom
+                <div {...bindPinch()}>
+                  <motion.div
+                    onMouseEnter={() => setZoom(true)}
+                    onMouseLeave={() => {
+                      setZoom(false);
+                      setPosition({ x: 50, y: 50 });
+                    }}
+                    onMouseMove={handleMouseMove}
+                    drag={scale > 1 ? "x" : false}
+                    dragConstraints={{ left: -500, right: 500 }}
+                  >
+                    <motion.img
+                      src={selectedMedia}
+                      alt="Product"
+                      className="max-h-[80vh] max-w-full rounded-md object-contain"
+                      style={{
+                        transformOrigin: `${position.x}% ${position.y}%`,
+                      }}
+                      animate={{ scale: zoom ? scale : 1 }}
+                    />
+                  </motion.div>
+                </div>
               )}
             </div>
 
+            {/* Thumbnails */}
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               {media.map((item, index) => (
                 <button
@@ -1145,13 +1104,21 @@ export default function ProductDetails({ product }: { product: MongoProduct }) {
                     setCurrentIndex(index);
                     setScale(1);
                   }}
-                  className={`flex h-16 w-16 items-center justify-center overflow-hidden rounded-md border-2 bg-white ${currentIndex === index ? "border-orange-500" : "border-transparent"
+                  className={`flex h-16 w-16 items-center justify-center overflow-hidden rounded-md border-2 bg-white ${currentIndex === index
+                      ? "border-orange-500"
+                      : "border-transparent"
                     }`}
                 >
                   {item.includes(".mp4") || item.includes("youtube") ? (
                     <span className="text-xs font-semibold">▶</span>
                   ) : (
-                    <Image width={10} height={10} src={item} alt="thumb" className="h-full w-full object-cover" />
+                    <Image
+                      width={64}
+                      height={64}
+                      src={item}
+                      alt="thumb"
+                      className="h-full w-full object-cover"
+                    />
                   )}
                 </button>
               ))}

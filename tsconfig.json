@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/tryonvertually/sunglasstryon/page.tsx", "src/app/tryonvertually/juelarytryon/neclesstryon/page.jsx", "src/app/component/blog/page.jsx", "src/app/products/popular/page.tsx", "src/app/products/filterproducts/page.jsx", "src/app/dashboard/admindashboard/updateProduct/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/tryonvertually/sunglasstryon/page.tsx", "src/app/tryonvertually/juelarytryon/neclesstryon/page.jsx", "src/app/component/blog/page.jsx", "src/app/products/popular/page.tsx", "src/app/products/filterproducts/page.tsx", "src/app/dashboard/admindashboard/updateProduct/page.jsx"],
   "exclude": ["node_modules"]
 }

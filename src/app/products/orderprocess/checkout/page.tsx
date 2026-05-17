@@ -75,7 +75,7 @@ export default function CheckoutPage() {
       <>
         <OrderSuccessScreen
           orderNumber={success}
-          orderId={successOrderId}
+          orderId={successOrderId ?? ""}
           orderItems={lastOrderItems}
           onClose={() => router.push("/")}
         />

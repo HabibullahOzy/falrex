@@ -819,11 +819,31 @@ export default function AllProducts() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         .all-products-wrap { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
       `}</style>
 
-      <section className="all-products-wrap min-h-full py-6 px-3 sm:px-4 md:px-6 lg:px-8">
+      <section className="all-products-wrap min-h-full py-6 px-4">
+
+        {/* ── Header ── */}
+          <div className="mb-8 text-center">
+            {/* <div className="flex items-center justify-center gap-2 mb-3">
+              <div
+                className="text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full"
+                style={{ background: "linear-gradient(90deg,#ede9fe,#fce7f3)", color: "#7c3aed" }}
+              >
+                🌐 AI Global Rank
+              </div>
+            </div> */}
+            <h2
+              className="text-3xl sm:text-4xl font-black text-neutral-900 mb-1"
+              style={{ fontFamily: "'DM Serif Display', serif", letterSpacing: "-0.02em" }}
+            >
+              All Products
+            </h2>
+            <p className="text-sm font-medium" style={{ color: "#94a3b8" }}>
+              Hover cards to explore · All products.
+            </p>
+          </div>
 
         {/* ── Error Banner ── */}
         <AnimatePresence>

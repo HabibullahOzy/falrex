@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import CartButtons from "../CartButtons";
 
 // ✅ Updated type matching real API shape
 type Product = {
@@ -132,20 +133,23 @@ function ProductCard({ product }: { product: Product }) {
           </Link>
 
           {/* Add to Cart */}
-          <button
+          {/* <button
             onClick={handleAddToCart}
             className="w-full rounded-full border border-[#7149f5] bg-white px-4 py-2 text-xs font-semibold text-[#7149f5] transition hover:bg-[#7149f5] hover:text-white"
           >
             Add to Cart
-          </button>
+          </button> */}
 
           {/* Buy Now */}
-          <button
+          {/* <button
             onClick={handleBuyNow}
             className="w-full rounded-full bg-[#7149f5] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#8e6bff]"
           >
             Buy Now
-          </button>
+          </button> */}
+
+          <CartButtons productId={product._id}
+              quantity={1}/>
 
         </div>
       </div>

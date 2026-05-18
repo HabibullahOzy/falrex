@@ -99,6 +99,7 @@ ${productList}`,
   });
 
   const data = await res.json();
+  console.log(data)
   const raw = data.content?.find((b: { type: string }) => b.type === "text")?.text ?? "[]";
 
   try {
@@ -721,12 +722,12 @@ export default function PopularProducts() {
           {/* ── Header ── */}
           <div className="mb-8 text-center">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <div
+              {/* <div
                 className="text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full"
                 style={{ background: "linear-gradient(90deg,#ede9fe,#fce7f3)", color: "#7c3aed" }}
               >
                 🌐 AI Global Rank
-              </div>
+              </div> */}
             </div>
             <h2
               className="text-3xl sm:text-4xl font-black text-neutral-900 mb-1"

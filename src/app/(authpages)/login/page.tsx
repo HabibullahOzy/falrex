@@ -26,7 +26,8 @@ function getRedirectTarget(
   if (explicit && explicit.startsWith("/")) return explicit;
 
   // 2. Fall back to role-based home
-  return ROLE_HOME[userRole || "user"] || "/dashboard/user";
+  // return ROLE_HOME[userRole || "user"] || "/dashboard/user";
+  return ROLE_HOME[userRole || "user"] || "/dashboard/";
 }
 
 // ── Inner component (uses useSearchParams — must be inside Suspense) ────────

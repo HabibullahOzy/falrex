@@ -27,7 +27,7 @@ export default function ChatButton({
         body: JSON.stringify({ targetUid, targetName, targetRole }),
       });
       const json = await res.json();
-      if (json.success) router.push(`/chat`);
+      if (json.success) router.push(`/chattingsite`);
     } catch { }
     finally { setLoading(false); }
   };

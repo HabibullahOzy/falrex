@@ -103,7 +103,7 @@ export default function Navbar() {
 
                 {/* Compare */}
                 {compareList.length > 0 && (
-                  <Link href="/compare"
+                  <Link href="/component/compareProducts/compare"
                     className="relative w-9 h-9 rounded-xl flex items-center justify-center
                              bg-gray-100 hover:bg-purple-100 transition">
                     <GitCompare className="w-4 h-4 text-gray-600" />
@@ -126,7 +126,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* Chat */}
-                <Link href="/chat"
+                <Link href="/chattingsite"
                   className="relative w-9 h-9 rounded-xl flex items-center justify-center
                            bg-gray-100 hover:bg-blue-100 transition">
                   <MessageSquare className="w-4 h-4 text-gray-600" />
@@ -217,7 +217,7 @@ export default function Navbar() {
                             onClick={() => setProfileOpen(false)}
                           />
                           <ProfileLink
-                            href="/chat"
+                            href="/chattingsite"
                             icon={<MessageSquare className="w-4 h-4" />}
                             label="Messages"
                             onClick={() => setProfileOpen(false)}

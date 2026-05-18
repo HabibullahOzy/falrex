@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import img1 from "../../assets/falrexm.jpg";
+import img1 from "../../assets/positiveshop.png";
 import { usePathname } from "next/navigation";
 
 export default function Footer() {

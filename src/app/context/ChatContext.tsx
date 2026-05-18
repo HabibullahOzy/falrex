@@ -1,13 +1,16 @@
 "use client";
 import {
-  createContext, useContext, useState,
-  useEffect, useRef, useCallback, ReactNode,
+  createContext, useContext, useState, useEffect,
+  useRef, useCallback, ReactNode,
 } from "react";
-import { getSocket, disconnectSocket } from "../../../lib/socket";
-import { Socket } from "socket.io-client";
-import Cookies from "js-cookie";
+import { io, Socket }   from "socket.io-client";
+import Cookies          from "js-cookie";
+import { useAuth }      from "../context/AuthContext";
 
-interface Message {
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+// ── Types ──────────────────────────────────────────────────────────────────
+export interface ChatMessage {
   _id:          string;
   roomId:       string;
   senderId:     string;
@@ -17,104 +20,177 @@ interface Message {
   receiverId:   string;
   receiverName: string;
   content:      string;
-  type:         string;
+  type:         "text" | "image" | "file" | "system";
   fileUrl:      string;
+  fileName:     string;
   isRead:       boolean;
   isDeleted:    boolean;
+  reactions:    { uid: string; emoji: string }[];
+  replyTo:      { messageId: string; content: string; senderName: string } | null;
   createdAt:    string;
 }
 
-interface Conversation {
+export interface Conversation {
   _id:          string;
   roomId:       string;
-  participants: { uid: string; name: string; role: string; avatar: string }[];
-  lastMessage:  { content: string; senderId: string; createdAt: string; type: string };
+  participants: { uid: string; name: string; role: string; avatar: string; email: string }[];
+  lastMessage:  { content: string; senderId: string; senderName: string; createdAt: string; type: string };
   unreadCount:  Record<string, number>;
   updatedAt:    string;
 }
 
+export interface ChatUser {
+  uid:    string;
+  name:   string;
+  email:  string;
+  role:   string;
+  avatar: string;
+}
+
 interface Notification {
   roomId:  string;
-  message: Message;
+  message: ChatMessage;
   from:    { uid: string; name: string; role: string };
 }
 
 interface ChatContextType {
-  socket:            Socket | null;
-  isConnected:       boolean;
-  onlineUsers:       string[];
-  conversations:     Conversation[];
-  activeRoomId:      string | null;
-  messages:          Message[];
-  typingUsers:       Record<string, boolean>;
-  notifications:     Notification[];
-  unreadTotal:       number;
-  messagesLoading:   boolean;
-  // Methods
-  joinRoom:         (roomId: string) => void;
-  leaveRoom:        (roomId: string) => void;
-  sendMessage:      (receiverId: string, content: string, receiverName?: string) => void;
-  startTyping:      (roomId: string) => void;
-  stopTyping:       (roomId: string) => void;
-  markRead:         (roomId: string, senderId: string) => void;
-  deleteMessage:    (messageId: string, roomId: string) => void;
-  loadMessages:     (roomId: string) => Promise<void>;
-  setActiveRoomId:  (id: string | null) => void;
-  clearNotifications: () => void;
+  // State
+  socket:           Socket | null;
+  isConnected:      boolean;
+  onlineUsers:      string[];
+  conversations:    Conversation[];
+  activeRoomId:     string | null;
+  activeConv:       Conversation | null;
+  messages:         ChatMessage[];
+  typingUsers:      Record<string, string>; // uid → name
+  notifications:    Notification[];
+  unreadTotal:      number;
+  messagesLoading:  boolean;
+  convsLoading:     boolean;
+  hasMoreMessages:  boolean;
+  replyTo:          ChatMessage | null;
+
+  // Actions
+  joinRoom:          (roomId: string) => void;
+  leaveRoom:         (roomId: string) => void;
+  sendMessage:       (receiverId: string, content: string, opts?: SendOpts) => void;
+  startTyping:       (roomId: string) => void;
+  stopTyping:        (roomId: string) => void;
+  markRead:          (roomId: string, senderId: string) => void;
+  deleteMessage:     (messageId: string, roomId: string) => void;
+  reactToMessage:    (messageId: string, roomId: string, emoji: string) => void;
+  loadMoreMessages:  () => Promise<void>;
+  setActiveRoomId:   (id: string | null) => void;
+  setReplyTo:        (msg: ChatMessage | null) => void;
+  clearNotifications:() => void;
   refreshConversations: () => Promise<void>;
+  startChat:         (targetUid: string) => Promise<string | null>;
+}
+
+interface SendOpts {
+  receiverName?: string;
+  type?:         "text" | "image" | "file";
+  fileUrl?:      string;
+  fileName?:     string;
+  replyTo?:      { messageId: string; content: string; senderName: string } | null;
 }
 
 const ChatCtx = createContext<ChatContextType | null>(null);
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+export function ChatProvider({ children }: { children: ReactNode }) {
+  const { user, isLoggedIn } = useAuth();
 
-export function ChatProvider({ children, currentUid }: { children: ReactNode; currentUid?: string }) {
+  const [socket,          setSocket]          = useState<Socket | null>(null);
   const [isConnected,     setIsConnected]     = useState(false);
   const [onlineUsers,     setOnlineUsers]     = useState<string[]>([]);
   const [conversations,   setConversations]   = useState<Conversation[]>([]);
   const [activeRoomId,    setActiveRoomId]    = useState<string | null>(null);
-  const [messages,        setMessages]        = useState<Message[]>([]);
-  const [typingUsers,     setTypingUsers]     = useState<Record<string, boolean>>({});
+  const [messages,        setMessages]        = useState<ChatMessage[]>([]);
+  const [typingUsers,     setTypingUsers]     = useState<Record<string, string>>({});
   const [notifications,   setNotifications]   = useState<Notification[]>([]);
   const [unreadTotal,     setUnreadTotal]     = useState(0);
   const [messagesLoading, setMessagesLoading] = useState(false);
+  const [convsLoading,    setConvsLoading]    = useState(false);
+  const [hasMoreMessages, setHasMoreMessages] = useState(false);
+  const [messagePage,     setMessagePage]     = useState(1);
+  const [replyTo,         setReplyTo]         = useState<ChatMessage | null>(null);
 
-  const socketRef    = useRef<Socket | null>(null);
   const activeRoomRef = useRef<string | null>(null);
+  const socketRef     = useRef<Socket | null>(null);
 
-  // Keep ref in sync
   useEffect(() => { activeRoomRef.current = activeRoomId; }, [activeRoomId]);
 
-  // ── Init socket ───────────────────────────────────────────────────────────
+  // ── Derived ───────────────────────────────────────────────────────────
+  const activeConv = conversations.find((c) => c.roomId === activeRoomId) || null;
+
+  // ── Init socket ───────────────────────────────────────────────────────
   useEffect(() => {
-    if (!currentUid) return;
+    if (!isLoggedIn || !user) return;
 
-    const s = getSocket();
+    const token = Cookies.get("auth_token");
+    if (!token) return;
+
+    const s = io(API, {
+      auth:            { token },
+      withCredentials: true,
+      transports:      ["websocket", "polling"],
+      reconnection:    true,
+      reconnectionDelay:    1000,
+      reconnectionAttempts: 5,
+    });
+
     socketRef.current = s;
+    setSocket(s);
 
-    s.on("connect",    () => { setIsConnected(true);  console.log("✅ Socket connected"); });
-    s.on("disconnect", () => { setIsConnected(false); console.log("❌ Socket disconnected"); });
+    s.on("connect",    () => { setIsConnected(true);  console.log("✅ Chat connected"); });
+    s.on("disconnect", () => { setIsConnected(false); console.log("❌ Chat disconnected"); });
+
+    s.on("connect_error", (err) => {
+      console.error("Socket error:", err.message);
+      setIsConnected(false);
+    });
 
     s.on("users:online", (uids: string[]) => setOnlineUsers(uids));
-    s.on("user:online",  ({ uid, online }: { uid: string; online: boolean }) => {
+
+    s.on("user:status", ({ uid, online }: { uid: string; online: boolean }) => {
       setOnlineUsers((prev) =>
         online ? [...new Set([...prev, uid])] : prev.filter((u) => u !== uid)
       );
     });
 
-    s.on("message:receive", (msg: Message) => {
+    s.on("message:receive", (msg: ChatMessage) => {
       if (msg.roomId === activeRoomRef.current) {
         setMessages((prev) => {
           if (prev.find((m) => m._id === msg._id)) return prev;
           return [...prev, msg];
         });
-        // Auto mark as read if in room
-        if (msg.senderId !== currentUid) {
+        // Auto-mark read if currently viewing
+        if (msg.senderId !== user.uid) {
           s.emit("messages:read", { roomId: msg.roomId, senderId: msg.senderId });
         }
       }
-      // Update conversation list
-      refreshConversations();
+      // Update conversations
+      setConversations((prev) =>
+        prev
+          .map((c) =>
+            c.roomId === msg.roomId
+              ? {
+                  ...c,
+                  lastMessage: {
+                    content:    msg.content,
+                    senderId:   msg.senderId,
+                    senderName: msg.senderName,
+                    createdAt:  msg.createdAt,
+                    type:       msg.type,
+                  },
+                  updatedAt: msg.createdAt,
+                }
+              : c
+          )
+          .sort((a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          )
+      );
     });
 
     s.on("message:notification", (notif: Notification) => {
@@ -126,20 +202,27 @@ export function ChatProvider({ children, currentUid }: { children: ReactNode; cu
 
     s.on("message:deleted", ({ messageId }: { messageId: string }) => {
       setMessages((prev) =>
-        prev.map((m) => m._id === messageId
-          ? { ...m, isDeleted: true, content: "This message was deleted" }
-          : m
+        prev.map((m) =>
+          m._id === messageId
+            ? { ...m, isDeleted: true, content: "This message was deleted." }
+            : m
         )
       );
     });
 
-    s.on("typing:start", ({ uid, roomId }: { uid: string; roomId: string }) => {
-      if (roomId === activeRoomRef.current) {
-        setTypingUsers((prev) => ({ ...prev, [uid]: true }));
+    s.on("message:reacted", ({ messageId, reactions }: any) => {
+      setMessages((prev) =>
+        prev.map((m) => (m._id === messageId ? { ...m, reactions } : m))
+      );
+    });
+
+    s.on("typing:start", ({ uid, name, roomId }: any) => {
+      if (roomId === activeRoomRef.current && uid !== user.uid) {
+        setTypingUsers((prev) => ({ ...prev, [uid]: name }));
       }
     });
 
-    s.on("typing:stop", ({ uid }: { uid: string }) => {
+    s.on("typing:stop", ({ uid }: any) => {
       setTypingUsers((prev) => { const n = { ...prev }; delete n[uid]; return n; });
     });
 
@@ -149,42 +232,76 @@ export function ChatProvider({ children, currentUid }: { children: ReactNode; cu
       }
     });
 
-    // Load initial conversations
-    refreshConversations();
+    loadConversations();
 
     return () => {
-      s.off("connect"); s.off("disconnect");
-      s.off("users:online"); s.off("user:online");
-      s.off("message:receive"); s.off("message:notification");
-      s.off("message:deleted"); s.off("typing:start");
-      s.off("typing:stop"); s.off("messages:read");
+      s.disconnect();
+      socketRef.current = null;
+      setSocket(null);
+      setIsConnected(false);
     };
-  }, [currentUid]);
+  }, [isLoggedIn, user?.uid]);
 
-  const refreshConversations = useCallback(async () => {
+  // ── Load conversations ─────────────────────────────────────────────────
+  const loadConversations = useCallback(async () => {
+    setConvsLoading(true);
     try {
       const res  = await fetch(`${API}/chat/conversations`, { credentials: "include" });
       const json = await res.json();
       if (json.success) setConversations(json.data);
-    } catch {}
+    } catch {} finally { setConvsLoading(false); }
   }, []);
 
-  const loadMessages = useCallback(async (roomId: string) => {
+  const refreshConversations = loadConversations;
+
+  // ── Load messages ──────────────────────────────────────────────────────
+  const loadMessages = useCallback(async (roomId: string, page = 1) => {
     setMessagesLoading(true);
     try {
-      const res  = await fetch(`${API}/chat/messages/${roomId}?limit=50`, { credentials: "include" });
+      const res  = await fetch(
+        `${API}/chat/messages/${roomId}?page=${page}&limit=30`,
+        { credentials: "include" }
+      );
       const json = await res.json();
-      if (json.success) setMessages(json.data);
+      if (json.success) {
+        if (page === 1) {
+          setMessages(json.data);
+        } else {
+          setMessages((prev) => [...json.data, ...prev]);
+        }
+        setHasMoreMessages(json.page < json.pages);
+        setMessagePage(page);
+      }
     } catch {} finally { setMessagesLoading(false); }
   }, []);
 
+  const loadMoreMessages = useCallback(async () => {
+    if (!activeRoomId || !hasMoreMessages) return;
+    await loadMessages(activeRoomId, messagePage + 1);
+  }, [activeRoomId, hasMoreMessages, messagePage, loadMessages]);
+
+  // ── Join room ──────────────────────────────────────────────────────────
   const joinRoom = useCallback((roomId: string) => {
+    if (activeRoomId && activeRoomId !== roomId) {
+      socketRef.current?.emit("room:leave", { roomId: activeRoomId });
+    }
     socketRef.current?.emit("room:join", { roomId });
     setActiveRoomId(roomId);
-    loadMessages(roomId);
-    // Reset unread
+    setMessages([]);
+    setTypingUsers({});
+    setMessagePage(1);
+    loadMessages(roomId, 1);
+
+    // Update unread
+    setConversations((prev) =>
+      prev.map((c) =>
+        c.roomId === roomId
+          ? { ...c, unreadCount: { ...c.unreadCount, [user?.uid || ""]: 0 } }
+          : c
+      )
+    );
     setUnreadTotal((prev) => Math.max(0, prev - 1));
-  }, [loadMessages]);
+  }, [activeRoomId, loadMessages, user?.uid]);
 
   const leaveRoom = useCallback((roomId: string) => {
     socketRef.current?.emit("room:leave", { roomId });
@@ -193,15 +310,26 @@ export function ChatProvider({ children, currentUid }: { children: ReactNode; cu
     setTypingUsers({});
   }, []);
 
+  // ── Send message ───────────────────────────────────────────────────────
   const sendMessage = useCallback((
-    receiverId: string, content: string, receiverName = ""
+    receiverId: string,
+    content:    string,
+    opts:       SendOpts = {}
   ) => {
-    if (!content.trim()) return;
-    socketRef.current?.emit("message:send", {
-      receiverId, content, receiverName, type: "text",
+    if (!content.trim() || !socketRef.current) return;
+    socketRef.current.emit("message:send", {
+      receiverId,
+      content,
+      type:         opts.type        || "text",
+      fileUrl:      opts.fileUrl     || "",
+      fileName:     opts.fileName    || "",
+      receiverName: opts.receiverName|| "",
+      replyTo:      opts.replyTo     || null,
     });
+    setReplyTo(null);
   }, []);
 
+  // ── Typing ─────────────────────────────────────────────────────────────
   const startTyping = useCallback((roomId: string) => {
     socketRef.current?.emit("typing:start", { roomId });
   }, []);
@@ -210,26 +338,53 @@ export function ChatProvider({ children, currentUid }: { children: ReactNode; cu
     socketRef.current?.emit("typing:stop", { roomId });
   }, []);
 
+  // ── Read ───────────────────────────────────────────────────────────────
   const markRead = useCallback((roomId: string, senderId: string) => {
     socketRef.current?.emit("messages:read", { roomId, senderId });
   }, []);
 
+  // ── Delete ─────────────────────────────────────────────────────────────
   const deleteMessage = useCallback((messageId: string, roomId: string) => {
     socketRef.current?.emit("message:delete", { messageId, roomId });
   }, []);
 
-  const clearNotifications = useCallback(() => {
-    setNotifications([]); setUnreadTotal(0);
+  // ── React ──────────────────────────────────────────────────────────────
+  const reactToMessage = useCallback((messageId: string, roomId: string, emoji: string) => {
+    socketRef.current?.emit("message:react", { messageId, roomId, emoji });
   }, []);
+
+  // ── Start new chat ─────────────────────────────────────────────────────
+  const startChat = useCallback(async (targetUid: string): Promise<string | null> => {
+    try {
+      const res  = await fetch(`${API}/chat/room`, {
+        method:      "POST",
+        headers:     { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ targetUid }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        await loadConversations();
+        return json.data.roomId;
+      }
+      return null;
+    } catch { return null; }
+  }, [loadConversations]);
 
   return (
     <ChatCtx.Provider value={{
-      socket: socketRef.current, isConnected, onlineUsers,
-      conversations, activeRoomId, messages, typingUsers,
-      notifications, unreadTotal, messagesLoading,
-      joinRoom, leaveRoom, sendMessage, startTyping, stopTyping,
-      markRead, deleteMessage, loadMessages, setActiveRoomId,
-      clearNotifications, refreshConversations,
+      socket, isConnected, onlineUsers,
+      conversations, activeRoomId, activeConv,
+      messages, typingUsers, notifications,
+      unreadTotal, messagesLoading, convsLoading,
+      hasMoreMessages, replyTo,
+      joinRoom, leaveRoom, sendMessage,
+      startTyping, stopTyping, markRead,
+      deleteMessage, reactToMessage,
+      loadMoreMessages, setActiveRoomId, setReplyTo,
+      clearNotifications: () => { setNotifications([]); setUnreadTotal(0); },
+      refreshConversations,
+      startChat,
     }}>
       {children}
     </ChatCtx.Provider>

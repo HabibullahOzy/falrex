@@ -2352,7 +2352,7 @@ export default function HomePage() {
 
             <Image width={10} height={10} src={logoe} alt="logo" className="w-16" />
 
-            FalRex
+            PositiveShop
           </Link>
 
           <div className={styles.searchBar}>

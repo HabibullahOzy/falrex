@@ -8,6 +8,7 @@ import {
   sendOTP, verifyOTP, friendlyError,
 } from "../../../../lib/authHelpers";
 import styles from "../auth.module.css";
+import { getLoginRedirect } from "../../../../lib/getLoginRedirect";
 
 // Role → default dashboard map (mirrors middleware)
 const ROLE_HOME: Record<string, string> = {
@@ -66,8 +67,8 @@ function LoginContent() {
     setLoading(true); clearError();
     try {
       const data = await signInWithEmail(email, password);
-      const dest = getRedirectTarget(searchParams, data?.user?.role);
-      router.push(dest);
+      // const dest = getRedirectTarget(searchParams, data?.user?.role);
+      router.push(getLoginRedirect(searchParams, data?.user?.role));
     } catch (e: any) {
       setError(friendlyError(e.code) || e.message);
     } finally { setLoading(false); }

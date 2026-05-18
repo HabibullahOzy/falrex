@@ -24,7 +24,32 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
+  async headers() {
+    return [
+      {
+        // Apply to all routes
+        source: "/(.*)",
+        headers: [
+          {
+            key:   "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+          {
+            key:   "Cross-Origin-Embedder-Policy",
+            value: "unsafe-none",
+          },
+        ],
+      },
+    ];
+  },
+
 images: {
+
+   domains: [
+      "firebasestorage.googleapis.com",
+      "lh3.googleusercontent.com",
+    ],
    unoptimized: true,
    remotePatterns: [
       {

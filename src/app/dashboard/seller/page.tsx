@@ -78,7 +78,7 @@ export default function SellerDashboard() {
               <div key={p._id} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition">
                 <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                   {p.images?.[0]?.url
-                    ? <Image src={p.images[0].url} alt={p.nameEng} className="w-full h-full object-cover" />
+                    ? <Image width={10} height={10} src={p.images[0].url} alt={p.nameEng} className="w-full h-full object-cover" />
                     : <div className="w-full h-full flex items-center justify-center"><Package className="w-4 h-4 text-gray-300" /></div>
                   }
                 </div>

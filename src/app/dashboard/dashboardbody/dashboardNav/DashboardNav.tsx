@@ -14,17 +14,17 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Overview",       href: "/dashboard",                                         icon: "▦",  group: "main"  },
-  { label: "Add Product",    href: "/dashboard/admindashboard/creatproduct",              icon: "＋",  group: "store" },
-  { label: "All Products",   href: "/dashboard/admindashboard/adminactionproduct",        icon: "☰",  group: "store" },
-  { label: "Create Category",href: "/dashboard/admindashboard/categorycreat/create",     icon: "⊕",  group: "store" },
-  { label: "All Category",   href: "/dashboard/admindashboard/categorycreat/categorylist",icon: "⊞", group: "store" },
-  { label: "All Users",      href: "/dashboard/admindashboard/allusers",                 icon: "◉",  badge: 3, group: "admin" },
-  { label: "Admin",          href: "/dashboard/admin",                                   icon: "⬡",  group: "admin" },
+  { label: "Overview", href: "/dashboard", icon: "▦", group: "main" },
+  { label: "Add Product", href: "/dashboard/admindashboard/creatproduct", icon: "＋", group: "store" },
+  { label: "All Products", href: "/dashboard/admindashboard/adminactionproduct", icon: "☰", group: "store" },
+  { label: "Create Category", href: "/dashboard/admindashboard/categorycreat/create", icon: "⊕", group: "store" },
+  { label: "All Category", href: "/dashboard/admindashboard/categorycreat/categorylist", icon: "⊞", group: "store" },
+  { label: "All Users", href: "/dashboard/admindashboard/allusers", icon: "◉", badge: 3, group: "admin" },
+  { label: "Admin", href: "/dashboard/admin", icon: "⬡", group: "admin" },
 ];
 
 const GROUP_LABELS: Record<string, string> = {
-  main:  "Dashboard",
+  main: "Dashboard",
   store: "Store",
   admin: "Admin",
 };
@@ -52,13 +52,15 @@ export default function DashboardNav({ isOpen, onToggle, handleRate }: Props) {
         aria-label="Main navigation"
       >
         {/* Brand */}
-        <div className={styles.brand}>
-          <span className={styles.brandMark}>PS</span>
-          <div className={styles.brandText}>
-            <strong>PositiveDesk</strong>
-            <small>Operations</small>
+        <Link href={'/'}>
+          <div className={styles.brand}>
+            <span className={styles.brandMark}>PS</span>
+            <div className={styles.brandText}>
+              <strong>PositiveDesk</strong>
+              <small>Operations</small>
+            </div>
           </div>
-        </div>
+        </Link>
 
         {/* Nav groups */}
         <nav className={styles.nav} aria-label="Primary navigation">

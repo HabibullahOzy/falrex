@@ -674,7 +674,7 @@ export default function AdminProducts() {
             <tbody className="divide-y divide-gray-50">
               {loading ? (
                 Array.from({ length: limit }).map((_, i) => (
-                  <tr key={i} className="animate-pulse">
+                  <tr key={`skeleton-${i}`} className="animate-pulse">
                     <td className="px-4 py-3"><div className="w-4 h-4 bg-gray-200 rounded" /></td>
                     <td className="px-4 py-3"><div className="w-12 h-12 bg-gray-200 rounded-xl" /></td>
                     <td className="px-4 py-3"><div className="h-4 bg-gray-200 rounded w-48" /></td>

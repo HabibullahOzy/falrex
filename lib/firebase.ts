@@ -6,7 +6,7 @@ import {
   getAuth, GoogleAuthProvider, signInWithPopup,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
   RecaptchaVerifier, signInWithPhoneNumber,
-  signOut, onAuthStateChanged, User,
+  signOut, onAuthStateChanged, User,  browserLocalPersistence, setPersistence
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -39,6 +39,11 @@ const initAnalytics = async () => {
     }
   }
 };
+
+// Set persistence to local (survives page refresh)
+if (typeof window !== "undefined") {
+  setPersistence(auth, browserLocalPersistence).catch(console.error);
+}
 
 export {
   auth, googleProvider,

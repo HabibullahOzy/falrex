@@ -555,7 +555,7 @@ function SmartSpecSection({ product }: { product: Product }) {
         icon: "📋",
         fields: [],
       };
-
+// console.log(groupData)
       return <SpecTable key={groupKey} group={group} data={groupData} />;
     })
     .filter(Boolean);

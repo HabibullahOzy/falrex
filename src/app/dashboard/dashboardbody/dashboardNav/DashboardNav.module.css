@@ -145,7 +145,7 @@
   margin: 1px 8px;
   border-radius: 8px;
   text-decoration: none;
-  color: rgba(255,255,255,0.45);
+  color: rgb(255, 255, 255);
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
@@ -291,7 +291,7 @@
 .profileInfo strong {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.932);
 }
 .profileInfo small {
   font-size: 10px;
@@ -322,7 +322,7 @@
   cursor: pointer;
   display: grid;
   place-items: center;
-  color: rgba(255,255,255,0.4);
+  color: rgb(255, 255, 255);
   font-size: 14px;
   transition: background 0.15s, color 0.15s, opacity 0.15s;
   z-index: 10;
@@ -330,7 +330,7 @@
 }
 .collapseBtn:hover {
   background: #252540;
-  color: rgba(255,255,255,0.8);
+  color: rgb(255, 255, 255);
 }
 
 @media (max-width: 768px) {
